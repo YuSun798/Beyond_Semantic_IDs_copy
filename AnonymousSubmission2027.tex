@@ -361,7 +361,11 @@ All three methods return exactly 200 valid, distinct, history-filtered items per
 top-K items generated, while the Y-axis reports the fraction of users whose held-out target appears within the Top-$K$ list. CQG-Single outperforms TIGER in 38 of the 48 popularity--depth comparisons, particularly on Q2--Q3. TIGER remains stronger for some rare
 Q1 targets at shallow depths.
 % , while the two methods are comparable at several depths on Q4. 
-These results indicate that CQG's advantage is affected by both target-item popularity and retrieval depth.}
+These results indicate that CQG's advantage is affected by both target-item popularity and retrieval depth.
+This diagnostic uses a separately selected CQG-Single checkpoint
+(aggregate R@10 \(=0.3063\)); the primary seed-42 checkpoint in Table 3 has
+R@10 \(=0.3036\). Full values for all 12 depths and paired-bootstrap
+intervals appear in Appendix C.2.}
 \label{fig:crossover}
 \end{figure*}
 
@@ -420,7 +424,7 @@ Method & Config. & Trainable Params & \shortstack{ML-1M\\R@10} & \shortstack{ML-
 \midrule
 SASRec & Full-rank & \shortstack{0.32 / 0.88 / 0.79M} & 0.2797 & 0.1535 & 0.0558 & \textbf{0.0390} \\
 TIGER & Discrete AR & 5.78M & 0.2996 \(\pm\) 0.0072 & 0.1739 \(\pm\) 0.0046 & 0.0477 \(\pm\) 0.0042 & 0.0236 \(\pm\) 0.0028 \\
-CQG-Single & One-step & 3.2M & \textbf{0.3104 \(\pm\) 0.0047} & \textbf{0.1822 \(\pm\) 0.0044} & \textbf{0.0597 \(\pm\) 0.0046} & 0.0363 \(\pm\) 0.0015 \\
+CQG-Single & One-step & 3.2M & \textbf{0.3104 \(\pm\) 0.0047} & \textbf{0.1822 \(\pm\) 0.0044} & \textbf{0.0605 \(\pm\) 0.0046} & 0.0363 \(\pm\) 0.0015 \\
 CQG-AR & AR continuous (\(L=3\)) & 5.62M & 0.2976 \(\pm\) 0.0032 & 0.1735 \(\pm\) 0.0016 & 0.0571 \(\pm\) 0.0043 & 0.0355 \(\pm\) 0.0004 \\
 \bottomrule
 \end{tabular}
@@ -579,13 +583,15 @@ This result separates code assignment from target support: 99.4\% unique codes d
 Table~\ref{tab:primary-comparison} shows that CQG-Single outperforms
 TIGER-style SID in all seven ML-1M training runs, with a mean paired R@10
 gain of 0.0107 (95\% paired $t$ interval [0.0021, 0.0193]; exact sign-flip
-$p=.0156$). For seed 42, Figure~\ref{fig:crossover} shows numerically higher
+$p=.0156$). For the separately selected seed-42 diagnostic checkpoint,
+Figure~\ref{fig:crossover} shows numerically higher
 CQG-Single Recall in 38 of the 48 popularity--depth comparisons, including
 all 24 comparisons in Q2--Q3; the reversals are confined to Q1 and Q4.
-Beauty likewise favors CQG-Single at $K=10,50,90$ (all $p<.001$).
-Paired curve values and intervals are reported in Appendix C.2. Together,
-these results show that CQG-Single's gain is stable across training seeds
-and extends across most popularity strata and retrieval depths.
+Full curve values and paired intervals are reported in Appendix C.2. The
+curve is checkpoint-specific and is not substituted for the primary
+seed-42 value in Table 3. Together, these results show that CQG-Single's
+ML-1M gain is stable across training seeds and extends across most evaluated
+popularity--depth cells, without implying universal dominance.
 
 CQG-AR retains step-wise autoregressive decoding while replacing discrete
 SID tokens with continuous residual outputs. It remains comparable to
@@ -796,8 +802,7 @@ systems. The closer T5/RQ-VAE Beauty reproduction also does not match the
 reference implementation's ranking accuracy, so its absolute coverage effect
 must not be generalized to a fully reproduced TIGER checkpoint. Matched-target
 analysis remains observational rather than a causal intervention on
-popularity, and the Beauty significance results use paired users from seed-42
-checkpoints without capturing training-seed uncertainty. Full-catalog CE costs
+popularity. Full-catalog CE costs
 $O(N)$ per update and has only been evaluated on the reported catalog sizes;
 billion-item training, ANN latency, memory, and dynamic-catalog accuracy remain
 open.

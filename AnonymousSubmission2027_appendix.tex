@@ -21,8 +21,14 @@
 /TemplateVersion (2027.1)
 }
 
+\title{Supplementary Material for ``Beyond Semantic IDs: Finite-Beam
+Reachability and Continuous-Query Generation in Generative Recommendation''}
+\affiliations{}
+
 \begin{document}
 
+\maketitle
+\pagestyle{plain}
 \onecolumn
 \appendix
 \setcounter{secnumdepth}{2}
@@ -34,38 +40,49 @@ We report completed, protocol-matched diagnostics on the two Amazon datasets use
 \begin{table}[H]
 \centering
 \small
-\begin{tabular}{llrrrrr}
+\begin{tabular}{lllrr}
 \toprule
-Dataset & Seed & R@10 & N@10 & R@30 & R@90 & TargetInOutput@100 \\
+Dataset & Seed & Method & R@10 & NDCG@10 \\
 \midrule
-Beauty & 42 & 0.0464 & 0.0262 & 0.0823 & 0.1392 & 14.55\% \\
-Beauty & 43 & 0.0443 & 0.0261 & 0.0766 & 0.1299 & 13.71\% \\
-Beauty & 44 & 0.0525 & 0.0295 & 0.0945 & 0.1568 & 16.40\% \\
-Sports & 42 & 0.0205 & 0.0109 & 0.0418 & 0.0834 & 8.87\% \\
-Sports & 43 & 0.0242 & 0.0126 & 0.0509 & 0.1015 & 10.80\% \\
-Sports & 44 & 0.0261 & 0.0135 & 0.0543 & 0.1066 & 11.39\% \\
+Beauty & 42 & TIGER & 0.0464 & 0.0262 \\
+ &  & CQG-Single & 0.0552 & 0.0342 \\
+ &  & CQG-AR & 0.0527 & 0.0321 \\
+Beauty & 43 & TIGER & 0.0443 & 0.0261 \\
+ &  & CQG-Single & 0.0632 & 0.0389 \\
+ &  & CQG-AR & 0.0612 & 0.0363 \\
+Beauty & 44 & TIGER & 0.0525 & 0.0295 \\
+ &  & CQG-Single & 0.0631 & 0.0379 \\
+ &  & CQG-AR & 0.0573 & 0.0333 \\
+\midrule
+Sports & 42 & TIGER & 0.0205 & 0.0109 \\
+ &  & CQG-Single & 0.0350 & 0.0192 \\
+ &  & CQG-AR & 0.0351 & 0.0189 \\
+Sports & 43 & TIGER & 0.0242 & 0.0126 \\
+ &  & CQG-Single & 0.0361 & 0.0200 \\
+ &  & CQG-AR & 0.0353 & 0.0189 \\
+Sports & 44 & TIGER & 0.0261 & 0.0135 \\
+ &  & CQG-Single & 0.0379 & 0.0215 \\
+ &  & CQG-AR & 0.0359 & 0.0190 \\
 \bottomrule
 \end{tabular}
-\caption{TIGER-style SID diagnostics under constrained-validation checkpoint
-selection and valid-prefix decoding. Beauty and Sports use 22,363 and 21,519
-test users, respectively; every row uses exactly 100 valid, distinct,
-history-filtered items for TargetInOutput@100.}
+\caption{Complete Beauty and Sports seed-level results underlying the means
+and sample standard deviations in main-paper Table 3. Beauty and Sports use
+22,363 and 21,519 aligned test users, respectively. TIGER checkpoints are
+selected with constrained validation and evaluated with valid-prefix
+decoding; all three methods use the same processed split and history
+filtering within each dataset.}
 \label{tab:auto-tiger-results}
 \end{table}
 
+The corresponding 95\% \(t\)-intervals for Beauty R@10 are
+\([0.0372,0.0583]\) for TIGER, \([0.0490,0.0720]\) for CQG-Single, and
+\([0.0465,0.0676]\) for CQG-AR. For Sports they are
+\([0.0165,0.0307]\), \([0.0327,0.0399]\), and
+\([0.0344,0.0365]\), respectively. These intervals describe variation over
+three training runs and are not user-level confidence intervals.
+
 \section{Training-Seed Stability}
 \label{app:seed-stability}
-
-\begin{figure}[H]
-\centering
-\includegraphics[width=1\columnwidth]{Figures/cqg_transformer_architecture.pdf}
-\caption{Auxiliary objective and item-space diagnostic on ML-1M. MSE,
-InfoNCE, and full-catalog CE in Table~\ref{tab:loss} keep the SASRec item
-embedding space frozen. CE-joint updates the item representations and is shown
-only as a separate diagnostic, not as a controlled loss-only comparison.}
-\label{fig:ce-mse}
-\end{figure}
-
 
 Table~\ref{tab:ml1m-seven-seed} reports every completed ML-1M training seed
 under the final common protocol. TIGER uses valid-prefix constrained decoding,
@@ -99,7 +116,7 @@ does not imply that the three architectures consume identical random draws.
 Seed & \multicolumn{2}{c}{TIGER} & \multicolumn{2}{c}{CQG-Single} &
 \multicolumn{2}{c}{CQG-AR} \\
 \cmidrule(lr){2-3}\cmidrule(lr){4-5}\cmidrule(lr){6-7}
-& R@10 & N@10 & R@10 & N@10 & R@10 & N@10 \\
+& R@10 & NDCG@10 & R@10 & NDCG@10 & R@10 & NDCG@10 \\
 \midrule
 42 & 0.2992 & 0.1756 & 0.3036 & 0.1736 & 0.2972 & 0.1720 \\
 43 & 0.3038 & 0.1751 & 0.3161 & 0.1874 & 0.3028 & 0.1750 \\
@@ -116,29 +133,8 @@ Sample SD & 0.0072 & 0.0046 & 0.0047 & 0.0044 & 0.0032 & 0.0016 \\
 \caption{Seven-seed ML-1M results under valid-prefix constrained TIGER
 decoding. Each TIGER row uses the checkpoint reselected by constrained
 validation and evaluates all 6,040 test users with the same history filtering.
-N@10 denotes NDCG@10.}
+All metrics use the standard NDCG@10 notation.}
 \label{tab:ml1m-seven-seed}
-\end{table}
-
-\paragraph{Preliminary Sports multimodal diagnostic.}
-We additionally ran a single-seed diagnostic in which CQG-Single, CQG-AR, and the TIGER-style decoder share item embeddings formed from collaborative features and ImageNet-pretrained ResNet-18 image features. Images were available for only 5,268 of 10,693 non-padding catalog items; items without an image use the collaborative component with a zero image feature. Because image availability is incomplete and no multi-seed estimate is available, this experiment is preliminary and is not used to support the main claims.
-\begin{table}[H]
-\centering
-\small
-\begin{tabular}{lrrrr}
-\toprule
-Method & R@10 & NDCG@10 & R@90 & TargetInOutput@100 \\
-\midrule
-CQG-Single (multimodal, seed 42) & 0.0326 & 0.0174 & 0.1154 & -- \\
-CQG-AR (multimodal, seed 42) & 0.0296 & 0.0161 & 0.1087 & 11.62\% \\
-TIGER-style SID (multimodal, seed 42) & 0.0254 & 0.0137 & 0.0972 & 10.06\% \\
-\bottomrule
-\end{tabular}
-\caption{Preliminary single-seed Sports multimodal diagnostic. CQG-Single,
-CQG-AR, and the TIGER-style SID model use the same fused item space; the result
-is not directly comparable to a full-coverage multimodal benchmark because only
-49.3\% of catalog items have images.}
-\label{tab:auto-sports-mm}
 \end{table}
 
 % END AUTO_RESULTS
@@ -153,9 +149,7 @@ We evaluate a matched 100-candidate retrieve-and-rerank pipeline using
 MSE-trained continuous-query checkpoints. Across ML-1M, Beauty, and Sports,
 CQG-Single followed by SASRec reranking reaches 97.7--102\% of full-rank
 SASRec Recall@10; the completed CQG-AR controls on Beauty and Sports are also
-reported in Table~\ref{tab:cross}. Table~\ref{tab:hierarchy} further
-compares the learned retriever with random, last-item kNN, and mean-of-five
-kNN baselines under the same SASRec reranker. These candidate-generation
+reported in Table~\ref{tab:cross}. These candidate-generation
 diagnostics are separate from the CE-trained standalone results in
 Table 3 in the main paper.
 
@@ -190,54 +184,45 @@ on ML-1M only. These rows are separate from the standalone primary comparison.}
 \label{tab:cross}
 \end{table}
 
-\begin{table}[H]
-\centering
-\small
-\begin{tabular}{lrr}
-\toprule
-Retriever & ML-1M R@10 & Sports R@10 \\
-\midrule
-Random & 0.0252 & 0.0037 \\
-Last-item kNN & 0.2349 & 0.0311 \\
-Mean-of-5 kNN & 0.2545 & 0.0310 \\
-CQG-Single MSE + SASRec & \textbf{0.2801} & \textbf{0.0381} \\
-CQG-AR + SASRec & 0.2791 & 0.0378 \\
-SASRec full-rank & 0.2797 & 0.0390 \\
-\bottomrule
-\end{tabular}
-\caption{Retrieval-quality hierarchy. All methods except SASRec full-rank use
-SASRec reranking over top-100 candidates.}
-\label{tab:hierarchy}
-\end{table}
-
 \subsection{Paired Crossover Values}
 \label{app:crossover-values}
 
 \begin{table}[H]
 \centering
-\small
-\begin{tabular}{lrrrrrrr}
+\scriptsize
+\setlength{\tabcolsep}{2.3pt}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{llrrrrrrrrrrrr}
 \toprule
- & & \multicolumn{2}{c}{R@10} & \multicolumn{2}{c}{R@50} & \multicolumn{2}{c}{R@90} \\
-\cmidrule(lr){3-4}\cmidrule(lr){5-6}\cmidrule(lr){7-8}
-Quartile & Users & CQG-Single & TIGER & CQG-Single & TIGER & CQG-Single & TIGER \\
+Quartile & Method & 10 & 20 & 30 & 40 & 50 & 60 & 70 & 80 & 90 & 100 & 120 & 150 \\
 \midrule
-Q1 rare & 193 & 0.0622 & \textbf{0.0674} & 0.1865 & \textbf{0.1917} & \textbf{0.2850} & 0.2642 \\
-Q2 & 581 & \textbf{0.1773} & 0.1756 & \textbf{0.3959} & 0.3873 & \textbf{0.4923} & 0.4871 \\
-Q3 & 1,322 & \textbf{0.2519} & 0.2436 & \textbf{0.5030} & 0.4811 & \textbf{0.6006} & 0.5809 \\
-Q4 popular & 3,944 & \textbf{0.3555} & 0.3474 & \textbf{0.6331} & 0.6273 & 0.7186 & \textbf{0.7208} \\
+Q1 rare & CQG-Single & .0622 & .1192 & .1451 & .1658 & .1865 & .1917 & .2124 & .2435 & .2850 & .2953 & .3161 & .3575 \\
+($n=193$) & CQG-AR & .0829 & .1088 & .1451 & .1606 & .1762 & .1969 & .2280 & .2487 & .2591 & .2642 & .3057 & .3368 \\
+& TIGER & .0674 & .1036 & .1347 & .1658 & .1917 & .2021 & .2228 & .2591 & .2642 & .2798 & .3057 & .3161 \\
 \midrule
-Aggregate & 6,040 & \textbf{0.3063} & 0.2992 & \textbf{0.5675} & 0.5583 & \textbf{0.6571} & 0.6531 \\
+Q2 & CQG-Single & .1773 & .2719 & .3236 & .3614 & .3959 & .4320 & .4509 & .4802 & .4923 & .5112 & .5508 & .5835 \\
+($n=581$) & CQG-AR & .1497 & .2530 & .3098 & .3528 & .3907 & .4182 & .4372 & .4613 & .4819 & .4974 & .5284 & .5645 \\
+& TIGER & .1756 & .2547 & .3133 & .3528 & .3873 & .4234 & .4423 & .4647 & .4871 & .4991 & .5250 & .5611 \\
+\midrule
+Q3 & CQG-Single & .2519 & .3449 & .4206 & .4675 & .5030 & .5310 & .5628 & .5847 & .6006 & .6188 & .6430 & .6740 \\
+($n=1{,}322$) & CQG-AR & .2390 & .3434 & .4077 & .4486 & .4841 & .5204 & .5461 & .5688 & .5840 & .6051 & .6339 & .6566 \\
+& TIGER & .2436 & .3411 & .4077 & .4508 & .4811 & .5091 & .5363 & .5582 & .5809 & .5991 & .6316 & .6536 \\
+\midrule
+Q4 popular & CQG-Single & .3555 & .4754 & .5479 & .5974 & .6331 & .6620 & .6864 & .7039 & .7186 & .7335 & .7571 & .7842 \\
+($n=3{,}944$) & CQG-AR & .3494 & .4635 & .5319 & .5809 & .6174 & .6488 & .6747 & .6978 & .7125 & .7277 & .7497 & .7792 \\
+& TIGER & .3474 & .4612 & .5307 & .5834 & .6273 & .6509 & .6795 & .7023 & .7208 & .7335 & .7619 & .7896 \\
 \bottomrule
-\end{tabular}
-\caption{Paired seed-42 ML-1M diagnostic using the same 6,040 users and
-exactly 200 valid, distinct, history-filtered items from constrained TIGER
-decoding and CQG-Single. Aggregate CQG-minus-TIGER
-Recall differences are 0.0071 at $K=10$ (95\% CI
-$[-0.0025,0.0169]$, $p=.149$), 0.0093 at $K=50$ (CI
-$[-0.0003,0.0189]$, $p=.060$), and 0.0040 at $K=90$ (CI
-$[-0.0048,0.0127]$, $p=.397$), from 10,000 paired user-bootstrap
-resamples. None is significant at the 0.05 level.}
+\end{tabular}}
+\caption{Recall at all 12 depths plotted in main-paper Figure 3. This
+paired seed-42 diagnostic uses the same 6,040 users and matched Top-200
+outputs. Its CQG-Single checkpoint has aggregate R@10 \(0.3063\), whereas
+the independently selected seed-42 checkpoint in the primary seven-seed
+Table~\ref{tab:ml1m-seven-seed} has R@10 \(0.3036\); the curve is therefore
+a checkpoint-specific diagnostic and is not used as the primary seed-42
+accuracy result. For this diagnostic, aggregate CQG-minus-TIGER differences
+at \(K=10,50,90\) are \(0.0071,0.0093,0.0040\), with paired-bootstrap
+95\% CIs \([-0.0025,0.0169]\), \([-0.0003,0.0189]\), and
+\([-0.0048,0.0127]\), respectively (10,000 resamples; all \(p>.05\)).}
 \label{tab:crossover}
 \end{table}
 
@@ -255,7 +240,14 @@ metrics are accumulated outside autocast.
 \subsection{Dataset Splits}
 \label{app:splits}
 
-All datasets are converted into chronological user sequences. For each user, we use the last interaction for testing, the penultimate interaction for validation, and all earlier interactions for training. Users with insufficient history after filtering are removed. Evaluation is full-catalog unless otherwise stated: the target item is ranked against all candidate items rather than against sampled negatives. The reported top-$K$ metrics use $K\in\{5,10,20,30,50,70,90\}$ when available.
+All datasets are converted into chronological user sequences. For each user,
+we use the last interaction for testing, the penultimate interaction for
+validation, and all earlier interactions for training. Users with insufficient
+history after filtering are removed. Evaluation is full-catalog unless
+otherwise stated: the target item is ranked against all candidate items rather
+than against sampled negatives. Cross-dataset accuracy uses
+\(K\in\{5,10,20\}\); the ML-1M crossover curve uses the measured depths
+\(K\in\{10,20,30,40,50,60,70,80,90,100,120,150\}\).
 
 \subsection{Evaluation Metrics}
 \label{app:metrics}
@@ -303,18 +295,6 @@ coverage at a matched returned-list size $K$ is
 {|\mathcal I|}.
 \]
 We report this same output-set quantity for TIGER, CQG-Single, and CQG-AR. Catalog-wide scoreability of a dense interface is a separate property and does not imply 100\% CatalogCoverage@$K$.
-
-\subsection{Matched-Target Resampling Diagnostic}
-\label{app:matched-target}
-
-For the matched-target diagnostic, we first group distinct test-target items by training-frequency quartile. Let $\mathcal{Q}^{\mathrm{test}}_q$ be the test targets in quartile $q$ and let $m=\min_q|\mathcal{Q}^{\mathrm{test}}_q|$. For each trial, we uniformly sample $S_q\subseteq\mathcal{Q}^{\mathrm{test}}_q$ with $|S_q|=m$ and compute:
-\[
-\mathrm{MatchedTargetSupport}_q =
-\frac{1}{m}
-\sum_{i\in S_q}
-\mathbf{1}\{i\text{ is supported for its associated test instance}\}.
-\]
-We report the mean and standard deviation over 200 trials. This equalizes the number of distinct sampled targets, but it is not a substitute for the matched CatalogCoverage@$K$ measurement above.
 
 Our primary diagnostics directly report item-balanced support in
 Table 2 in the main paper, matched union coverage in
@@ -372,11 +352,13 @@ InfoNCE; the MSE-trained CQG-Single objective regresses to the raw exported
 vector.  The same frozen table is used (i) to embed history IDs,
 (ii) as the MSE/InfoNCE target table or the full-catalog CE classifier,
 (iii) as the exact or ANN retrieval index, and (iv) as the input to the
-hierarchical clustering used by our TIGER-style baseline.  This sharing
+hierarchical clustering used by our TIGER-style baseline. This sharing
 prevents differences in the item encoder from explaining differences among
-the output interfaces.  Dataset-specific seeds use their corresponding
-SASRec export where stated; the canonical ML-1M seed-42 table has shape
-\(3417\times64\).
+the output interfaces. Each dataset uses one fixed, checkpoint-selected
+SASRec export for all reported downstream seeds. Seeds 42--48 on ML-1M and
+42--44 on Beauty/Sports change downstream initialization, data order, and
+optimization; TIGER additionally reruns hierarchical clustering for each
+indexed seed. The ML-1M table has shape \(3417\times64\).
 
 \subsection{CQG-Single Architecture and Optimization}
 \label{app:cqg-single-training}
@@ -423,6 +405,18 @@ mixed precision, gradient-norm clipping at 1.0, and early stopping with
 patience 5 on validation NDCG@10.  The selected checkpoint is evaluated
 against the full catalog after appending the validation item to the test
 history and masking all previously observed items.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{Figures/cqg_transformer_architecture.pdf}
+\caption{Transformer-level architectures of CQG-Single and CQG-AR. Both
+methods consume history-item embeddings from the same frozen item table
+\(E\). CQG-Single produces one continuous query in a single forward pass,
+whereas CQG-AR autoregressively appends projected residual tokens and retrieves
+with the final cumulative query. Both use the frozen table as the full-catalog
+classifier and exact/ANN retrieval index.}
+\label{fig:cqg-architecture}
+\end{figure}
 
 \subsection{Hyperparameters}
 \label{app:hparams}
@@ -507,7 +501,16 @@ union of finite top-$K$ outputs.
 \subsection{Semantic-ID Construction}
 \label{app:sid_construction}
 
-The SID baseline follows the TIGER-style pipeline. First, a SASRec encoder is trained on the same chronological sequences used by both continuous methods. Its learned item embedding matrix is frozen and clustered by hierarchical k-means. Each item receives a depth-3 code path. The resulting tuple of cluster indices is treated as the target token sequence for the autoregressive decoder. Code collisions are resolved by assigning residual tie-break identifiers when needed, but in the reported ML-1M run collisions are negligible: 99.4\% of items receive unique codes.
+The SID baseline follows the TIGER-style pipeline. First, a SASRec encoder is
+trained on the same chronological sequences used by both continuous methods.
+Its learned item embedding matrix is frozen and clustered by hierarchical
+$k$-means. Each item first receives a depth-3 cluster path. Before decoder
+training and trie construction, every collision at a depth-3 leaf is augmented
+with a deterministic residual identifier ordered by item ID. Thus, 99.4\% of
+ML-1M items are already unique after the three cluster levels, and the
+remaining 0.6\% become one-to-one catalog codes after the residual identifier
+is appended. The decoder emits these final codes; no post-hoc nearest-code
+mapping or item selection is used.
 
 \subsection{TIGER T5/RQ-VAE Reproduction Recipe}
 \label{app:tiger_recipe}
@@ -547,31 +550,10 @@ items. Across seeds, 99.48\% of generated sequences are valid SIDs, but the
 union covers only $44.0\%\pm13.7\%$ of the 12,101-item catalog. The popularity
 gradient is consistent despite substantial seed variance: mean coverage rises
 from $14.0\%\pm7.6\%$ in Q1 to $88.7\%\pm13.0\%$ in Q4
-(Table~\ref{tab:faithful-coverage}). Because this reproduction has an
+(Table 6 in the main paper). Because this reproduction has an
 unresolved ranking-accuracy gap, it shows only that the coverage pattern is
 not unique to our hierarchical-$k$-means code assignment; it is not a
 substitute for measuring the reference implementation's checkpoint.
-
-\begin{table}[!htbp]
-\centering
-\small
-\begin{tabular}{lrr}
-\toprule
-Catalog group & Coverage@100 & Std. \\
-\midrule
-Q1 rare & 14.0\% & 7.6\% \\
-Q2 & 26.1\% & 13.8\% \\
-Q3 & 47.4\% & 20.3\% \\
-Q4 popular & 88.7\% & 13.0\% \\
-\midrule
-Overall & 44.0\% & 13.7\% \\
-\bottomrule
-\end{tabular}
-\caption{Empirical union-of-top-100 catalog coverage for the closer T5/RQ-VAE
-Beauty reproduction, averaged over decoder seeds 42--44. Each quartile
-contains approximately one quarter of the catalog.}
-\label{tab:faithful-coverage}
-\end{table}
 
 This recipe yields Beauty R@10 $0.0408\pm0.0016$, whereas the reference
 implementation reports a higher value (Table~\ref{tab:published-sid}). We do
@@ -610,15 +592,16 @@ measurements from this reproduction separately.
 \toprule
 Method & Beauty R@10 & Beauty NDCG@10 \\
 \midrule
-Ours: TIGER-style & 0.0477 \(\pm\) 0.0042 & 0.0273 \(\pm\) 0.0019 \\
+Hierarchical-$k$-means TIGER-style & 0.0477 \(\pm\) 0.0042 & 0.0273 \(\pm\) 0.0019 \\
+Closer T5/RQ-VAE reproduction & 0.0408 \(\pm\) 0.0016 & -- \\
 TIGER (Rajput et al., 2023) & 0.0648 & 0.0384 \\
 LETTER-TIGER (Zheng et al., 2024) & 0.0672 & 0.0364 \\
 EAGER (Wang et al., 2024) & 0.0836 & 0.0525 \\
 \bottomrule
 \end{tabular}
-\caption{Published and reproduced SID results on Amazon Beauty, provided only
-to document the implementation gap. Our row is a three-seed mean and sample
-standard deviation under our evaluator. Published rows are transcribed from
+\caption{Distinct SID diagnostics and published results on Amazon Beauty.
+The hierarchical-$k$-means and closer T5/RQ-VAE rows are separate
+three-seed experiments and must not be interchanged. Published rows are transcribed from
 their respective papers and are not controlled benchmarks: tokenizers, item
 features, model architectures, data processing, decoding, and evaluation
 protocols differ.}
@@ -637,8 +620,9 @@ At inference, we construct a trie from the catalog SID tuples. The first
 decoding step permits only catalog-valid first-level codes; each later step
 permits only tokens that extend the current prefix to at least one catalog
 code. Completed tuples are resolved by exact lookup only; no numeric
-nearest-code mapping is used. Items sharing a tuple receive a deterministic
-item-ID tie break. Previously observed items are removed, and the internal
+nearest-code mapping is used. Because colliding depth-3 paths have already
+received deterministic residual identifiers, every completed trie path maps
+to exactly one item. Previously observed items are removed, and the internal
 beam is doubled when necessary until the requested number of valid, distinct,
 history-filtered items is available (up to the documented safety cap). For
 ML-1M Top-200 evaluation, all 6,040 users receive exactly 200 items; the mean
@@ -709,6 +693,7 @@ only as a separate diagnostic, not as a controlled loss-only comparison.}
 \label{fig:ce-mse}
 \end{figure}
 
+\FloatBarrier
 \subsection{Temperature Ablation}
 \label{app:temperature}
 
@@ -761,7 +746,11 @@ automatically align with the frozen collaborative item space; the best
 text-aware Qwen hybrid still trails the single-run, MSE-frozen scratch query
 Transformer used in this diagnostic (R@10 = 0.248). This checkpoint is
 separate from the three-seed CQG-Single MSE result in
-Table~\ref{tab:loss}.}
+Table~\ref{tab:loss}. In the figure, v3/v4 are jointly trained dual-tower
+variants, v5h is an MSE-warm-started dual tower, v6 trains only the query side
+against a frozen item table, and v7 is the frozen-item text-aware hybrid.
+The first three collapse the item space; v6/v7 instead exhibit loss--metric
+decoupling. These are single-run diagnostics, not primary baselines.}
 \label{fig:llm_diagnostic}
 \end{figure}
 
@@ -785,36 +774,5 @@ reported in Table~\ref{tab:loss}.}
 
 The full recall curve confirms the diagnostic: the best tested LLM hybrid
 underperforms the scratch Transformer at every reported depth.
-
-\section{Tokenization Diagnostics}
-\label{app:tokenization}
-
-Several neural RQ-VAE configurations collapsed to degenerate codebooks with
-less than 10\% utilization. A k-means fallback achieved high code utilization
-but showed large downstream variance across decoder configurations. We do not
-use these failures as evidence that SID methods are generally weak; instead,
-they motivate careful baseline validation against published TIGER, LETTER,
-and EAGER results.
-
-\begin{table}[H]
-\centering
-\small
-\begin{tabular}{lll}
-\toprule
-Configuration & Utilization & Outcome \\
-\midrule
-Neural RQ-VAE variants & \(<\)10\% & Codebook collapse \\
-k-means fallback A & 99.8\% & R@10 = 0.1230, 15\% reachability \\
-k-means fallback B & 99.8\% & R@10 = 0.1932, 52\% reachability \\
-\bottomrule
-\end{tabular}
-\caption{Tokenization diagnostics. Neural RQ-VAE collapsed in the tested configurations; k-means improved utilization but remained sensitive to decoder training and beam-search support.}
-\label{tab:tokenization}
-\end{table}
-
-\section{Dynamic Catalog Discussion}
-\label{app:dynamic}
-
-CQG-Single and CQG-AR share the same index-level update interface. A new encoded item can be inserted into the ANN index without adding an output token, rebuilding a code trie, or changing either model's output dimensionality. This interface property does not guarantee cold-item ranking quality. In contrast, a SID system must assign the new item to a code path; if the assignment changes the code distribution or causes collisions, the codebook, trie, and decoder may need to be refreshed. A direct dynamic-catalog evaluation would hold out a fraction of items during training, insert them into the retrieval index only at test time, and measure new-item Recall@$K$, warm-item Recall@$K$, index update cost, and whether model retraining is required.
 
 \end{document}
