@@ -1,4 +1,4 @@
-"""Regenerate the current paper Figures 2--4 as vector PDFs.
+"""Regenerate the current paper and appendix diagnostic figures as vector PDFs.
 
 These figures use protocol-matched, checkpoint-specific values reported in the
 paper. The crossover curves use the saved seed-42 CQG-Single Top-200 output and
@@ -266,7 +266,76 @@ def figure4():
     save(fig, "fig4_llm_diagnostic.pdf")
 
 
+def figure5():
+    """Consolidate the objective, visibility, and temperature diagnostics."""
+    fig, axes = plt.subplots(1, 3, figsize=(11.8, 3.8))
+    blue, green, gold, gray = "#0072B2", "#009E73", "#E69F00", "#777777"
+
+    # (a) Frozen-item objective landscape.
+    ax = axes[0]
+    labels = ["Single\nCE", "Single\nMSE", "Single\nInfoNCE",
+              "AR\nCE", "AR\nMSE", "AR\nInfoNCE"]
+    values = [0.3114, 0.2425, 0.2386, 0.2982, 0.2424, 0.2324]
+    colors = [blue, gray, gray, green, gray, gray]
+    bars = ax.bar(np.arange(len(values)), values, color=colors, width=0.72)
+    for bar, value in zip(bars, values):
+        ax.text(bar.get_x() + bar.get_width() / 2, value + 0.004,
+                f"{value:.3f}", ha="center", va="bottom", fontsize=7.5)
+    ax.axhline(0.2797, color=gold, ls="--", lw=1.3, label="SASRec BPR")
+    ax.set_xticks(np.arange(len(labels)), labels, fontsize=7.5)
+    ax.set_ylabel("Test R@10")
+    ax.set_title("(a) Training objective")
+    ax.set_ylim(0.20, 0.33)
+    ax.legend(frameon=False, fontsize=7.5, loc="upper right")
+
+    # (b) Full-catalog versus sampled CE, mean +/- sample SD.
+    ax = axes[1]
+    vis_labels = ["Full-catalog\nCE", "Sampled CE\n(256 neg.)"]
+    vis_values = [0.2982, 0.2895]
+    vis_sd = [0.0042, 0.0077]
+    bars = ax.bar([0, 1], vis_values, yerr=vis_sd, capsize=4,
+                  color=[green, "#56B4E9"], width=0.62)
+    for bar, value in zip(bars, vis_values):
+        ax.text(bar.get_x() + bar.get_width() / 2, value + 0.011,
+                f"{value:.4f}", ha="center", va="bottom", fontsize=8)
+    ax.set_xticks([0, 1], vis_labels, fontsize=8)
+    ax.set_title("(b) Catalog visibility")
+    ax.set_ylim(0.26, 0.32)
+    ax.text(0.5, 0.263, r"$\Delta$R@10 = -0.0087",
+            ha="center", va="bottom", fontsize=8)
+
+    # (c) Temperature sensitivity.
+    ax = axes[2]
+    temperatures = np.array([0.07, 0.10, 0.20])
+    single = [0.3114, 0.3070, 0.2846]
+    ar = [0.2972, 0.2886, 0.2725]
+    ax.plot(temperatures, single, "-o", color=blue, label="CQG-Single")
+    ax.plot(temperatures, ar, "-s", color=green, label="CQG-AR")
+    ax.axhline(0.2425, color=gray, ls="--", lw=1.2,
+               label="Single MSE")
+    for xs, ys, color in [(temperatures, single, blue),
+                          (temperatures, ar, green)]:
+        for x, y in zip(xs, ys):
+            ax.text(x, y + 0.003, f"{y:.3f}", ha="center",
+                    va="bottom", fontsize=7.5, color=color)
+    ax.set_xticks(temperatures, ["0.07", "0.10", "0.20"])
+    ax.set_xlabel(r"Temperature $\tau$")
+    ax.set_title("(c) Temperature")
+    ax.set_ylim(0.23, 0.325)
+    ax.legend(frameon=False, fontsize=7.5, loc="lower left")
+
+    for ax in axes:
+        ax.grid(axis="y", alpha=0.15)
+        ax.set_axisbelow(True)
+        ax.spines[["top", "right"]].set_visible(False)
+        ax.tick_params(axis="y", labelsize=8)
+
+    fig.tight_layout(w_pad=1.8)
+    save(fig, "fig5_ce_mse.pdf")
+
+
 if __name__ == "__main__":
     figure2()
     figure3()
     figure4()
+    figure5()

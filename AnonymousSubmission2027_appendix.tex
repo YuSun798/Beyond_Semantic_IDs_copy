@@ -139,77 +139,58 @@ All metrics use the standard NDCG@10 notation.}
 \section{Experimental Protocol and Reproducibility}
 \label{app:protocol}
 
-\subsection{MSE-Trained Retrieve-and-Rerank Diagnostics}
-\label{app:mse-rerank}
-
-We evaluate a matched 100-candidate retrieve-and-rerank pipeline using
-MSE-trained continuous-query checkpoints. Across ML-1M, Beauty, and Sports,
-CQG-Single followed by SASRec reranking reaches 97.7--102\% of full-rank
-SASRec Recall@10; the completed CQG-AR controls on Beauty and Sports are also
-reported in Table~\ref{tab:cross}. These candidate-generation
-diagnostics are separate from the CE-trained standalone results in
-Table 3 in the main paper.
-
-\begin{table}[H]
-\centering
-\small
-\begin{tabular}{lrrr}
-\toprule
-Method & ML-1M & Beauty & Sports \\
-\midrule
-\multicolumn{4}{l}{\textit{Recall@10}} \\
-SASRec & 0.2797 & 0.0558 & 0.0390 \\
-CQG-Single MSE standalone & 0.2425 & 0.0524 & 0.0307 \\
-CQG-Single MSE + reranker & \textbf{0.2801} & \textbf{0.0569} & 0.0381 \\
-CQG-AR MSE standalone (seed 42) & 0.2414 & 0.0466 & 0.0294 \\
-CQG-AR + reranker (seed 42) & 0.2791 & 0.0486 & 0.0378 \\
-TIGER candidates + SASRec & 0.2864 & -- & -- \\
-\midrule
-\multicolumn{4}{l}{\textit{NDCG@10}} \\
-SASRec & 0.1535 & 0.0296 & 0.0197 \\
-CQG-Single MSE standalone & 0.1424 & 0.0266 & 0.0150 \\
-CQG-Single MSE + reranker & \textbf{0.1554} & \textbf{0.0308} & 0.0194 \\
-CQG-AR MSE standalone (seed 42) & 0.1366 & 0.0276 & 0.0160 \\
-CQG-AR + reranker (seed 42) & 0.1543 & 0.0265 & 0.0194 \\
-TIGER candidates + SASRec & 0.1571 & -- & -- \\
-\bottomrule
-\end{tabular}
-\caption{Matched 100-candidate retrieve-and-rerank diagnostic. CQG-Single rows
-use the MSE-trained retriever; CQG-AR uses the final available seed-42
-candidate outputs for each dataset. The TIGER reranking control is available
-on ML-1M only. These rows are separate from the standalone primary comparison.}
-\label{tab:cross}
-\end{table}
-
 \subsection{Paired Crossover Values}
 \label{app:crossover-values}
 
 \begin{table}[H]
 \centering
-\scriptsize
-\setlength{\tabcolsep}{2.3pt}
-\resizebox{\textwidth}{!}{%
-\begin{tabular}{llrrrrrrrrrrrr}
+\small
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{llrrrrrr}
 \toprule
-Quartile & Method & 10 & 20 & 30 & 40 & 50 & 60 & 70 & 80 & 90 & 100 & 120 & 150 \\
+Quartile & Method & 10 & 20 & 30 & 40 & 50 & 60 \\
 \midrule
-Q1 rare & CQG-Single & .0622 & .1192 & .1451 & .1658 & .1865 & .1917 & .2124 & .2435 & .2850 & .2953 & .3161 & .3575 \\
-($n=193$) & CQG-AR & .0829 & .1088 & .1451 & .1606 & .1762 & .1969 & .2280 & .2487 & .2591 & .2642 & .3057 & .3368 \\
-& TIGER & .0674 & .1036 & .1347 & .1658 & .1917 & .2021 & .2228 & .2591 & .2642 & .2798 & .3057 & .3161 \\
+Q1 rare & CQG-Single & .0622 & .1192 & .1451 & .1658 & .1865 & .1917 \\
+($n=193$) & CQG-AR & .0829 & .1088 & .1451 & .1606 & .1762 & .1969 \\
+& TIGER & .0674 & .1036 & .1347 & .1658 & .1917 & .2021 \\
 \midrule
-Q2 & CQG-Single & .1773 & .2719 & .3236 & .3614 & .3959 & .4320 & .4509 & .4802 & .4923 & .5112 & .5508 & .5835 \\
-($n=581$) & CQG-AR & .1497 & .2530 & .3098 & .3528 & .3907 & .4182 & .4372 & .4613 & .4819 & .4974 & .5284 & .5645 \\
-& TIGER & .1756 & .2547 & .3133 & .3528 & .3873 & .4234 & .4423 & .4647 & .4871 & .4991 & .5250 & .5611 \\
+Q2 & CQG-Single & .1773 & .2719 & .3236 & .3614 & .3959 & .4320 \\
+($n=581$) & CQG-AR & .1497 & .2530 & .3098 & .3528 & .3907 & .4182 \\
+& TIGER & .1756 & .2547 & .3133 & .3528 & .3873 & .4234 \\
 \midrule
-Q3 & CQG-Single & .2519 & .3449 & .4206 & .4675 & .5030 & .5310 & .5628 & .5847 & .6006 & .6188 & .6430 & .6740 \\
-($n=1{,}322$) & CQG-AR & .2390 & .3434 & .4077 & .4486 & .4841 & .5204 & .5461 & .5688 & .5840 & .6051 & .6339 & .6566 \\
-& TIGER & .2436 & .3411 & .4077 & .4508 & .4811 & .5091 & .5363 & .5582 & .5809 & .5991 & .6316 & .6536 \\
+Q3 & CQG-Single & .2519 & .3449 & .4206 & .4675 & .5030 & .5310 \\
+($n=1{,}322$) & CQG-AR & .2390 & .3434 & .4077 & .4486 & .4841 & .5204 \\
+& TIGER & .2436 & .3411 & .4077 & .4508 & .4811 & .5091 \\
 \midrule
-Q4 popular & CQG-Single & .3555 & .4754 & .5479 & .5974 & .6331 & .6620 & .6864 & .7039 & .7186 & .7335 & .7571 & .7842 \\
-($n=3{,}944$) & CQG-AR & .3494 & .4635 & .5319 & .5809 & .6174 & .6488 & .6747 & .6978 & .7125 & .7277 & .7497 & .7792 \\
-& TIGER & .3474 & .4612 & .5307 & .5834 & .6273 & .6509 & .6795 & .7023 & .7208 & .7335 & .7619 & .7896 \\
+Q4 popular & CQG-Single & .3555 & .4754 & .5479 & .5974 & .6331 & .6620 \\
+($n=3{,}944$) & CQG-AR & .3494 & .4635 & .5319 & .5809 & .6174 & .6488 \\
+& TIGER & .3474 & .4612 & .5307 & .5834 & .6273 & .6509 \\
 \bottomrule
-\end{tabular}}
+\end{tabular}
+
+\vspace{4pt}
+
+\begin{tabular}{llrrrrrr}
+\toprule
+Quartile & Method & 70 & 80 & 90 & 100 & 120 & 150 \\
+\midrule
+Q1 rare & CQG-Single & .2124 & .2435 & .2850 & .2953 & .3161 & .3575 \\
+($n=193$) & CQG-AR & .2280 & .2487 & .2591 & .2642 & .3057 & .3368 \\
+& TIGER & .2228 & .2591 & .2642 & .2798 & .3057 & .3161 \\
+\midrule
+Q2 & CQG-Single & .4509 & .4802 & .4923 & .5112 & .5508 & .5835 \\
+($n=581$) & CQG-AR & .4372 & .4613 & .4819 & .4974 & .5284 & .5645 \\
+& TIGER & .4423 & .4647 & .4871 & .4991 & .5250 & .5611 \\
+\midrule
+Q3 & CQG-Single & .5628 & .5847 & .6006 & .6188 & .6430 & .6740 \\
+($n=1{,}322$) & CQG-AR & .5461 & .5688 & .5840 & .6051 & .6339 & .6566 \\
+& TIGER & .5363 & .5582 & .5809 & .5991 & .6316 & .6536 \\
+\midrule
+Q4 popular & CQG-Single & .6864 & .7039 & .7186 & .7335 & .7571 & .7842 \\
+($n=3{,}944$) & CQG-AR & .6747 & .6978 & .7125 & .7277 & .7497 & .7792 \\
+& TIGER & .6795 & .7023 & .7208 & .7335 & .7619 & .7896 \\
+\bottomrule
+\end{tabular}
 \caption{Recall at all 12 depths plotted in main-paper Figure 3. This
 paired seed-42 diagnostic uses the same 6,040 users and matched Top-200
 outputs. Its CQG-Single checkpoint has aggregate R@10 \(0.3063\), whereas
@@ -421,23 +402,40 @@ classifier and exact/ANN retrieval index.}
 \begin{table}[H]
 \centering
 \small
-\resizebox{\textwidth}{!}{%
-\begin{tabular}{lrrrrrrrl}
+\setlength{\tabcolsep}{5pt}
+\begin{tabular}{lrrrr}
 \toprule
-Method & Item $d$ & Hidden & Layers & Heads & LR & Batch & Epochs/Steps & Objective \\
+Method & Item $d$ & Hidden & Layers & Heads \\
 \midrule
-SASRec item encoder & 64 & 64 & 2 & 2 & 1e-3 & 256 & 200/400 max. & BPR, one uniform negative \\
-CQG-Single MSE & 64 & 256 & 4 & 4 & 1e-3 & 256 & 50 max. & MSE to target embedding \\
-CQG-Single InfoNCE & 64 & 256 & 4 & 4 & 1e-4 & 256 & 100 max. & In-batch InfoNCE, $\tau=0.07$ \\
-CQG-Single CE & 64 & 256 & 4 & 4 & 1e-3 & 256 & 50 max. & Full-catalog softmax CE \\
-CQG-AR & 64 & 384 & 4 & 6 & 3e-4 & 1024 & 30 max. & AR residuals + full-catalog CE \\
-CQG-AR sampled CE & 64 & 384 & 4 & 6 & 3e-4 & 1024 & 30 max. & AR residuals + 256 negatives \\
-Qwen hybrid probe & 64 & -- & -- & -- & 5e-5 & 32$\times$8 & 10 & InfoNCE with projection head \\
-TIGER-style SID decoder & 64 & 384 & 4 & 6 & 1e-3 & 256 & 50K steps & Autoregressive CE over SID tokens \\
-TIGER T5/RQ-VAE reproduction & -- & -- & -- & -- & 1e-4 & 256 & 200 max. & Autoregressive CE over SID tokens \\
+SASRec item encoder & 64 & 64 & 2 & 2 \\
+CQG-Single MSE & 64 & 256 & 4 & 4 \\
+CQG-Single InfoNCE & 64 & 256 & 4 & 4 \\
+CQG-Single CE & 64 & 256 & 4 & 4 \\
+CQG-AR & 64 & 384 & 4 & 6 \\
+CQG-AR sampled CE & 64 & 384 & 4 & 6 \\
+Qwen hybrid probe & 64 & -- & -- & -- \\
+TIGER-style SID decoder & 64 & 384 & 4 & 6 \\
+TIGER T5/RQ-VAE reproduction & -- & -- & -- & -- \\
 \bottomrule
 \end{tabular}
-}
+
+\vspace{4pt}
+
+\begin{tabular}{lrrrl}
+\toprule
+Method & LR & Batch & Epochs/Steps & Objective \\
+\midrule
+SASRec item encoder & 1e-3 & 256 & 200/400 max. & BPR, one uniform negative \\
+CQG-Single MSE & 1e-3 & 256 & 50 max. & MSE to target embedding \\
+CQG-Single InfoNCE & 1e-4 & 256 & 100 max. & In-batch InfoNCE, $\tau=0.07$ \\
+CQG-Single CE & 1e-3 & 256 & 50 max. & Full-catalog softmax CE \\
+CQG-AR & 3e-4 & 1024 & 30 max. & AR residuals + full-catalog CE \\
+CQG-AR sampled CE & 3e-4 & 1024 & 30 max. & AR residuals + 256 negatives \\
+Qwen hybrid probe & 5e-5 & 32$\times$8 & 10 & InfoNCE with projection head \\
+TIGER-style SID decoder & 1e-3 & 256 & 50K steps & Autoregressive CE over SID tokens \\
+TIGER T5/RQ-VAE reproduction & 1e-4 & 256 & 200 max. & Autoregressive CE over SID tokens \\
+\bottomrule
+\end{tabular}
 \caption{Training hyperparameters for the three datasets. ``Hidden'' is the Transformer width; all continuous queries remain 64-dimensional. SASRec uses at most 200 epochs on ML-1M/Beauty and 400 on Sports. Sequence length is 50 for ML-1M and 20 for Beauty/Sports; ``max.'' denotes early-stopped training.}
 \label{tab:hparams}
 \end{table}
@@ -633,9 +631,11 @@ and then evaluate the selected checkpoint on the complete test population.
 \section{Additional Ablations}
 \label{app:ablations}
 
-\subsection{Frozen-Item Objective Diagnostics}
+\subsection{Objective, Catalog-Visibility, and Temperature Diagnostics}
 \label{app:loss-objectives}
 
+\paragraph{Objective and catalog visibility.}
+\iffalse
 \begin{table}[H]
 \centering
 \small
@@ -650,14 +650,17 @@ Sampled CE (256 negatives) & 0.2895 \(\pm\) 0.0077 & 0.1663 \(\pm\) 0.0034 & 0.6
 \caption{ML-1M objective-visibility control (mean $\pm$ sample SD; seeds 42--44). Reducing catalog visibility to 256 sampled negatives lowers R@10 by 0.0087 but retains competitive accuracy, so objective visibility explains part, not all, of the continuous model's behavior.}
 \label{tab:objective-control}
 \end{table}
+\fi
 
 Under the corrected leave-one-out evaluator, full-catalog CE yields higher
-Recall@10 than MSE and in-batch InfoNCE in the frozen item space
-(Table~\ref{tab:loss}). Figure~\ref{fig:ce-mse} provides a broader diagnostic
-across the evaluated objectives, including CE-joint for completeness. CE-joint is
-not a controlled loss-only comparison because it changes both the objective
-and the item representations.
+Recall@10 than MSE and in-batch InfoNCE in the frozen item space.
+Reducing CQG-AR catalog visibility from full-catalog CE to 256 sampled
+negatives lowers mean R@10 from \(0.2982\) to \(0.2895\), while retaining
+competitive accuracy. Figure~\ref{fig:ce-mse} consolidates these objective
+and catalog-visibility controls. CE-joint is included only as a separate
+diagnostic because it changes both the objective and the item representations.
 
+\iffalse
 \begin{table}[H]
 \centering
 \small
@@ -679,21 +682,12 @@ CQG-AR rows are three-seed means under the corrected test-history protocol;
 CQG-Single InfoNCE is an auxiliary diagnostic.}
 \label{tab:loss}
 \end{table}
+\fi
 
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.92\columnwidth]{Figures/fig5_ce_mse.pdf}
-\caption{Auxiliary objective and item-space diagnostic on ML-1M. MSE,
-InfoNCE, and full-catalog CE in Table~\ref{tab:loss} keep the SASRec item
-embedding space frozen. CE-joint updates the item representations and is shown
-only as a separate diagnostic, not as a controlled loss-only comparison.}
-\label{fig:ce-mse}
-\end{figure}
-
-\FloatBarrier
-\subsection{Temperature Ablation}
+\paragraph{Temperature.}
 \label{app:temperature}
 
+\iffalse
 \begin{table}[!htbp]
 \centering
 \small
@@ -716,6 +710,29 @@ seed-42 controls. Lower temperatures improve shallow retrieval in the tested
 range.}
 \label{tab:temperature}
 \end{table}
+\fi
+
+For both continuous decoders, lower temperatures improve shallow retrieval in
+the evaluated range. CQG-Single R@10 decreases from \(0.3114\) at
+\(\tau=0.07\) to \(0.3070\) at \(0.10\) and \(0.2846\) at \(0.20\);
+the aligned seed-42 CQG-AR control decreases from \(0.2972\) to \(0.2886\)
+and \(0.2725\). The MSE-trained CQG-Single reference reaches \(0.2425\).
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{Figures/fig5_ce_mse.pdf}
+\caption{Unified ML-1M objective diagnostics. (a) In the shared frozen item
+space, full-catalog CE gives the highest R@10 for both CQG-Single and CQG-AR;
+MSE and InfoNCE are lower. CE-joint changes the item representations and is
+shown only as a separate diagnostic. (b) Replacing full-catalog CE with 256
+sampled negatives reduces CQG-AR mean R@10 by 0.0087, showing that catalog
+visibility explains part, but not all, of its behavior. Error bars denote
+sample SD over seeds 42--44. (c) Lower softmax temperatures improve R@10 for
+both continuous decoders in the evaluated range; the dashed line is the
+CQG-Single MSE reference. This figure consolidates the results formerly
+reported in Tables 7--9.}
+\label{fig:ce-mse}
+\end{figure}
 
 \section{LLM Backbone Diagnostic}
 \label{app:llm}
@@ -730,7 +747,7 @@ Recall@10 remained far below the SASRec gate. The best text-aware hybrid
 reached R@10 = 0.2118 on ML-1M but still trailed the single-run, MSE-frozen
 scratch Transformer used in this diagnostic (R@10 = 0.248). This checkpoint
 is distinct from the MSE-trained CQG-Single three-seed result of 0.2425 in
-Table~\ref{tab:loss}.
+Figure~\ref{fig:ce-mse}.
 This result does not imply that LLMs cannot support recommendation; it shows
 that pretrained language representations are not automatically aligned with
 the frozen collaborative item space.
@@ -743,7 +760,7 @@ automatically align with the frozen collaborative item space; the best
 text-aware Qwen hybrid still trails the single-run, MSE-frozen scratch query
 Transformer used in this diagnostic (R@10 = 0.248). This checkpoint is
 separate from the three-seed CQG-Single MSE result in
-Table~\ref{tab:loss}. In the figure, v3/v4 are jointly trained dual-tower
+Figure~\ref{fig:ce-mse}. In the figure, v3/v4 are jointly trained dual-tower
 variants, v5h is an MSE-warm-started dual tower, v6 trains only the query side
 against a frozen item table, and v7 is the frozen-item text-aware hybrid.
 The first three collapse the item space; v6/v7 instead exhibit loss--metric
@@ -758,14 +775,15 @@ decoupling. These are single-run diagnostics, not primary baselines.}
 \toprule
 Model & R@5 & R@10 & R@20 & R@50 & R@70 & R@90 \\
 \midrule
-\shortstack[l]{Scratch Transformer\\(LLM diagnostic)} & 0.172 & 0.248 & 0.345 & 0.498 & 0.555 & 0.595 \\
+\shortstack[l]{Scratch Transformer\\(LLM diagnostic)} & \textbf{0.172} & \textbf{0.248} & \textbf{0.345} & \textbf{0.498} & \textbf{0.555} & \textbf{0.595} \\
 Qwen text-aware hybrid & 0.134 & 0.212 & 0.308 & 0.460 & 0.517 & 0.564 \\
 \bottomrule
 \end{tabular}
 \caption{Single-run recall curve comparison between the MSE-frozen scratch
 Transformer used in the LLM diagnostic and the best tested LLM hybrid
 configuration. The scratch row is not the three-seed CQG-Single MSE aggregate
-reported in Table~\ref{tab:loss}.}
+reported in Figure~\ref{fig:ce-mse}. Bold denotes the best value in each
+column.}
 \label{tab:llmcurve}
 \end{table}
 

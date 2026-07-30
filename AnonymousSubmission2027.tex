@@ -126,7 +126,10 @@ Our contributions are:
     Recall@$K$, while continuous retrieval can overtake at deeper $K$ under a
     matched returned-list size.
     \item \textbf{Parallel continuous-query methods.} We introduce CQG-Single, a one-step continuous retriever, and CQG-AR, an autoregressive continuous decoder. Their comparison separates the effect of autoregression from the effect of a discrete SID vocabulary.
-    \item \textbf{Controlled empirical study.} Across ML-1M, Amazon Beauty, and Amazon Sports, we analyze retrieval quality, reranked performance, loss functions, LLM backbone failures, and tokenization instability while limiting scalability claims to the tested catalog sizes.
+    \item \textbf{Controlled empirical study.} Across ML-1M, Amazon Beauty,
+    and Amazon Sports, we analyze retrieval quality, finite-output coverage,
+    objective controls, and LLM-backbone diagnostics while limiting
+    scalability claims to the tested catalog sizes.
 \end{itemize}
 
 \section{Related Work}
@@ -281,9 +284,9 @@ MSE preserves geometric alignment but yields lower retrieval accuracy than CE
 in our experiments. BPR is used to pretrain the shared SASRec item encoder,
 not as one of the reported CQG objectives.
 
-\subsection{Retrieval, Reranking, and Contrast with SID}
+\subsection{Retrieval and Contrast with SID}
 
-Standalone CQG-Single ranks items according to $q_u^\top e_i$, while CQG-AR uses $(\hat e_u^{(L)})^\top e_i$. Exact catalog scoring can be replaced by ANN search, such as FAISS, for large catalogs. Our CQG-AR experiments retrieve only with the final query \(\hat e_u^{(L)}\); merging candidates from intermediate or interest-specific queries is an untested extension. In our retrieve-and-rerank evaluation, the continuous generator retrieves 100 candidates, which are then reranked by a pretrained SASRec model. In contrast, SID retrieval requires codebook learning, autoregressive discrete decoding, beam search, and code-to-item lookup; a finite beam explores only a restricted subset of valid code paths. CQG-Single instead generates one continuous query, while CQG-AR preserves step-wise autoregressive generation with continuous outputs. Both directly query the item embedding index without introducing an item-token vocabulary. (Figure~\ref{fig:pipeline})
+Standalone CQG-Single ranks items according to $q_u^\top e_i$, while CQG-AR uses $(\hat e_u^{(L)})^\top e_i$. Exact catalog scoring can be replaced by ANN search, such as FAISS, for large catalogs. Our CQG-AR experiments retrieve only with the final query \(\hat e_u^{(L)}\); merging candidates from intermediate or interest-specific queries is an untested extension. In contrast, SID retrieval requires codebook learning, autoregressive discrete decoding, beam search, and code-to-item lookup; a finite beam explores only a restricted subset of valid code paths. CQG-Single instead generates one continuous query, while CQG-AR preserves step-wise autoregressive generation with continuous outputs. Both directly query the item embedding index without introducing an item-token vocabulary. (Figure~\ref{fig:pipeline})
 
 % \subsection{Contrast with SID Retrieval}
 
@@ -304,8 +307,8 @@ We use MovieLens-1M (ML-1M), Amazon Beauty, and Amazon Sports. ML-1M is the prim
 \toprule
 Dataset & Users & Items & Interactions & Density \\
 \midrule
-ML-1M & 6,040 & 3,416 & 999K & 4.84\% \\
-Beauty & 22,363 & 12,101 & 198K & 0.07\% \\
+ML-1M & 6,040 & 3,416 & \textbf{999K} & \textbf{4.84\%} \\
+Beauty & \textbf{22,363} & \textbf{12,101} & 198K & 0.07\% \\
 Sports & 21,519 & 10,693 & \(\sim\)178K & 0.08\% \\
 \bottomrule
 \end{tabular}
@@ -315,7 +318,7 @@ $\mathcal{R}$ is the set of observed interactions, $\mathcal{U}$ the users,
 and $\mathcal{I}$ the non-padding items. 
 Higher density indicates that users interact with a larger fraction of the
 catalog, whereas lower density indicates sparser interactions and a more
-pronounced long tail.}
+pronounced long tail. Bold marks the largest value in each numerical column.}
 
 % The processed Sports split differs
 % from the standard 5-core split used in several published SID studies, so its
@@ -365,7 +368,7 @@ These results indicate that CQG's advantage is affected by both target-item popu
 This diagnostic uses a separately selected CQG-Single checkpoint
 (aggregate R@10 \(=0.3063\)); the primary seed-42 checkpoint in Table 3 has
 R@10 \(=0.3036\). Full values for all 12 depths and paired-bootstrap
-intervals appear in Appendix C.2.}
+intervals appear in Appendix C.1.}
 \label{fig:crossover}
 \end{figure*}
 
@@ -390,7 +393,8 @@ CQG-AR & 66.4\% & 24.4\% & 45.4\% & 54.8\% & 69.6\% & 78.8\% \\
 \caption{ML-1M finite-output support (seed 42). Overall is user weighted;
 Q1--Q4 average distinct target items within training-frequency quartiles, and
 the final column is the fraction of distinct targets retrieved at least once
-by Top-200. Returned-list sizes and filtering are matched across methods.}
+by Top-200. Returned-list sizes and filtering are matched across methods.
+Bold denotes the best value in each column.}
 \label{tab:target-support-comparison}
 \end{table*}
 
@@ -447,7 +451,8 @@ parameter counts of 0.32/0.88/0.79M correspond to ML-1M, Beauty, and
 Sports, respectively, reflecting their different item-embedding table
 sizes. All methods use aligned full-user evaluation, and TIGER uses
 valid-prefix constrained decoding. Seed-level results and 95\% $t$
-intervals are reported in Appendix B.}
+intervals are reported in Appendix B. Bold denotes the best value in each
+dataset/metric column.}
 \label{tab:primary-comparison}
 \end{table*}
 
@@ -587,7 +592,7 @@ $p=.0156$). For the separately selected seed-42 diagnostic checkpoint,
 Figure~\ref{fig:crossover} shows numerically higher
 CQG-Single Recall in 38 of the 48 popularity--depth comparisons, including
 all 24 comparisons in Q2--Q3; the reversals are confined to Q1 and Q4.
-Full curve values and paired intervals are reported in Appendix C.2. The
+Full curve values and paired intervals are reported in Appendix C.1. The
 curve is checkpoint-specific and is not substituted for the primary
 seed-42 value in Table 3. Together, these results show that CQG-Single's
 ML-1M gain is stable across training seeds and extends across most evaluated
@@ -601,13 +606,6 @@ datasets. The largest gain occurs on Sports, where R@10 increases from
 (95\% bootstrap CI [0.0119, 0.0173], $p<.0002$). Thus, continuous outputs
 can potentially remove SID-specific decoding constraints without sacrificing
 autoregressive generalization or retrieval accuracy.
-
-MSE-trained candidate-generation and reranking diagnostics are reported
-separately in Appendix C.1; they are not results from the
-CE-trained CQG-Single or CQG-AR models used in the primary comparison.
-
-
-
 
 \section{Analysis}
 
@@ -670,8 +668,8 @@ Table~\ref{tab:faithful-coverage}.
 \begin{table*}[!t]
 \centering
 \small
-\setlength{\tabcolsep}{3pt}
-\renewcommand{\arraystretch}{1.00}
+\setlength{\tabcolsep}{2.5pt}
+\renewcommand{\arraystretch}{0.87}
 \begin{tabular}{lrr|rr|rr}
 \toprule
 Dataset &
@@ -730,13 +728,14 @@ Catalog group & Coverage@100 & Std. \\
 Q1 rare & 14.0\% & 7.6\% \\
 Q2 & 26.1\% & 13.8\% \\
 Q3 & 47.4\% & 20.3\% \\
-Q4 popular & 88.7\% & 13.0\% \\
+Q4 popular & \textbf{88.7\%} & 13.0\% \\
 \midrule
 Overall & 44.0\% & 13.7\% \\
 \bottomrule
 \end{tabular}
 \caption{Empirical union-of-top-100 catalog coverage for the closer T5/RQ-VAE
-Beauty reproduction, averaged over decoder seeds 42--44.}
+Beauty reproduction, averaged over decoder seeds 42--44. Bold denotes the
+highest quartile coverage.}
 \label{tab:faithful-coverage}
 \end{table}
 
