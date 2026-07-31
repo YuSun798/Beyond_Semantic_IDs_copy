@@ -300,9 +300,17 @@ def figure5():
                 f"{value:.4f}", ha="center", va="bottom", fontsize=8)
     ax.set_xticks([0, 1], vis_labels, fontsize=8)
     ax.set_title("(b) Catalog visibility")
-    ax.set_ylim(0.26, 0.32)
-    ax.text(0.5, 0.263, r"$\Delta$R@10 = -0.0087",
-            ha="center", va="bottom", fontsize=8)
+    ax.set_ylim(0.26, 0.325)
+    ax.text(
+        0.5,
+        0.319,
+        r"$\Delta$R@10 = -0.0087",
+        ha="center",
+        va="center",
+        fontsize=8,
+        bbox={"facecolor": "white", "edgecolor": "none", "alpha": 0.9,
+              "pad": 1.2},
+    )
 
     # (c) Temperature sensitivity.
     ax = axes[2]
