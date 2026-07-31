@@ -148,56 +148,29 @@ for each seed/metric and for the mean row.}
 
 \begin{table}[H]
 \centering
-\small
-\setlength{\tabcolsep}{2.2pt}
-\begin{minipage}[t]{0.495\textwidth}
-\centering
-\begin{tabular}{llrrrrrr}
+\scriptsize
+\setlength{\tabcolsep}{1.45pt}
+\begin{tabular}{llrrrrrrrrrrrr}
 \toprule
-Quartile & Method & 10 & 20 & 30 & 40 & 50 & 60 \\
+Quartile & Method & 10 & 20 & 30 & 40 & 50 & 60 & 70 & 80 & 90 & 100 & 120 & 150 \\
 \midrule
-Q1 rare & Single & .0622 & \textbf{.1192} & \textbf{.1451} & \textbf{.1658} & .1865 & .1917 \\
-($n=193$) & AR & \textbf{.0829} & .1088 & \textbf{.1451} & .1606 & .1762 & .1969 \\
-& TIGER & .0674 & .1036 & .1347 & \textbf{.1658} & \textbf{.1917} & \textbf{.2021} \\
+Q1 rare & Single & .0622 & \textbf{.1192} & \textbf{.1451} & \textbf{.1658} & .1865 & .1917 & .2124 & .2435 & \textbf{.2850} & \textbf{.2953} & \textbf{.3161} & \textbf{.3575} \\
+($n=193$) & AR & \textbf{.0829} & .1088 & \textbf{.1451} & .1606 & .1762 & .1969 & \textbf{.2280} & .2487 & .2591 & .2642 & .3057 & .3368 \\
+& TIGER & .0674 & .1036 & .1347 & \textbf{.1658} & \textbf{.1917} & \textbf{.2021} & .2228 & \textbf{.2591} & .2642 & .2798 & .3057 & .3161 \\
 \midrule
-Q2 & Single & \textbf{.1773} & \textbf{.2719} & \textbf{.3236} & \textbf{.3614} & \textbf{.3959} & \textbf{.4320} \\
-($n=581$) & AR & .1497 & .2530 & .3098 & .3528 & .3907 & .4182 \\
-& TIGER & .1756 & .2547 & .3133 & .3528 & .3873 & .4234 \\
+Q2 & Single & \textbf{.1773} & \textbf{.2719} & \textbf{.3236} & \textbf{.3614} & \textbf{.3959} & \textbf{.4320} & \textbf{.4509} & \textbf{.4802} & \textbf{.4923} & \textbf{.5112} & \textbf{.5508} & \textbf{.5835} \\
+($n=581$) & AR & .1497 & .2530 & .3098 & .3528 & .3907 & .4182 & .4372 & .4613 & .4819 & .4974 & .5284 & .5645 \\
+& TIGER & .1756 & .2547 & .3133 & .3528 & .3873 & .4234 & .4423 & .4647 & .4871 & .4991 & .5250 & .5611 \\
 \midrule
-Q3 & Single & \textbf{.2519} & \textbf{.3449} & \textbf{.4206} & \textbf{.4675} & \textbf{.5030} & \textbf{.5310} \\
-($n=1{,}322$) & AR & .2390 & .3434 & .4077 & .4486 & .4841 & .5204 \\
-& TIGER & .2436 & .3411 & .4077 & .4508 & .4811 & .5091 \\
+Q3 & Single & \textbf{.2519} & \textbf{.3449} & \textbf{.4206} & \textbf{.4675} & \textbf{.5030} & \textbf{.5310} & \textbf{.5628} & \textbf{.5847} & \textbf{.6006} & \textbf{.6188} & \textbf{.6430} & \textbf{.6740} \\
+($n=1{,}322$) & AR & .2390 & .3434 & .4077 & .4486 & .4841 & .5204 & .5461 & .5688 & .5840 & .6051 & .6339 & .6566 \\
+& TIGER & .2436 & .3411 & .4077 & .4508 & .4811 & .5091 & .5363 & .5582 & .5809 & .5991 & .6316 & .6536 \\
 \midrule
-Q4 popular & Single & \textbf{.3555} & \textbf{.4754} & \textbf{.5479} & \textbf{.5974} & \textbf{.6331} & \textbf{.6620} \\
-($n=3{,}944$) & AR & .3494 & .4635 & .5319 & .5809 & .6174 & .6488 \\
-& TIGER & .3474 & .4612 & .5307 & .5834 & .6273 & .6509 \\
+Q4 popular & Single & \textbf{.3555} & \textbf{.4754} & \textbf{.5479} & \textbf{.5974} & \textbf{.6331} & \textbf{.6620} & \textbf{.6864} & \textbf{.7039} & .7186 & \textbf{.7335} & .7571 & .7842 \\
+($n=3{,}944$) & AR & .3494 & .4635 & .5319 & .5809 & .6174 & .6488 & .6747 & .6978 & .7125 & .7277 & .7497 & .7792 \\
+& TIGER & .3474 & .4612 & .5307 & .5834 & .6273 & .6509 & .6795 & .7023 & \textbf{.7208} & \textbf{.7335} & \textbf{.7619} & \textbf{.7896} \\
 \bottomrule
 \end{tabular}
-\end{minipage}\hfill%
-\begin{minipage}[t]{0.495\textwidth}
-\centering
-\begin{tabular}{llrrrrrr}
-\toprule
-Quartile & Method & 70 & 80 & 90 & 100 & 120 & 150 \\
-\midrule
-Q1 rare & Single & .2124 & .2435 & \textbf{.2850} & \textbf{.2953} & \textbf{.3161} & \textbf{.3575} \\
-($n=193$) & AR & \textbf{.2280} & .2487 & .2591 & .2642 & .3057 & .3368 \\
-& TIGER & .2228 & \textbf{.2591} & .2642 & .2798 & .3057 & .3161 \\
-\midrule
-Q2 & Single & \textbf{.4509} & \textbf{.4802} & \textbf{.4923} & \textbf{.5112} & \textbf{.5508} & \textbf{.5835} \\
-($n=581$) & AR & .4372 & .4613 & .4819 & .4974 & .5284 & .5645 \\
-& TIGER & .4423 & .4647 & .4871 & .4991 & .5250 & .5611 \\
-\midrule
-Q3 & Single & \textbf{.5628} & \textbf{.5847} & \textbf{.6006} & \textbf{.6188} & \textbf{.6430} & \textbf{.6740} \\
-($n=1{,}322$) & AR & .5461 & .5688 & .5840 & .6051 & .6339 & .6566 \\
-& TIGER & .5363 & .5582 & .5809 & .5991 & .6316 & .6536 \\
-\midrule
-Q4 popular & Single & \textbf{.6864} & \textbf{.7039} & .7186 & \textbf{.7335} & .7571 & .7842 \\
-($n=3{,}944$) & AR & .6747 & .6978 & .7125 & .7277 & .7497 & .7792 \\
-& TIGER & .6795 & .7023 & \textbf{.7208} & \textbf{.7335} & \textbf{.7619} & \textbf{.7896} \\
-\bottomrule
-\end{tabular}
-\end{minipage}
 \caption{Recall at all 12 depths plotted in main-paper Figure 3. This
 paired seed-42 diagnostic uses the same 6,040 users and matched Top-200
 outputs. Its CQG-Single checkpoint has aggregate R@10 \(0.3063\), whereas
@@ -424,7 +397,6 @@ CQG-AR & 64 & 384 & 4 & 6 \\
 CQG-AR sampled CE & 64 & 384 & 4 & 6 \\
 Qwen2.5-7B hybrid probe & 64 & 3584 & 28 & 28 \\
 TIGER-style SID decoder & 64 & 384 & 4 & 6 \\
-TIGER T5/RQ-VAE reproduction & N/A & N/A & N/A & N/A \\
 \bottomrule
 \end{tabular}
 
@@ -442,16 +414,12 @@ CQG-AR & 3e-4 & 1024 & 30 max. & AR residuals + full-catalog CE \\
 CQG-AR sampled CE & 3e-4 & 1024 & 30 max. & AR residuals + 256 negatives \\
 Qwen2.5-7B hybrid probe & 5e-5 & 32$\times$8 & 10 & InfoNCE with projection head \\
 TIGER-style SID decoder & 1e-3 & 256 & 50K steps & Autoregressive CE over SID tokens \\
-TIGER T5/RQ-VAE reproduction & 1e-4 & 256 & 200 max. & Autoregressive CE over SID tokens \\
 \bottomrule
 \end{tabular}
 \caption{Training hyperparameters for the three datasets. ``Hidden'' is the
 Transformer width; all continuous queries remain 64-dimensional. The
 Qwen2.5-7B probe uses its 3,584-dimensional, 28-layer, 28-attention-head
-backbone and a 64-dimensional projection head. The closer T5/RQ-VAE
-reproduction is reported from its released training interface; comparable
-item/hidden/layer/head fields were not recorded in the available run artifact
-and are marked N/A rather than left blank. SASRec uses at most 200 epochs on
+backbone and a 64-dimensional projection head. SASRec uses at most 200 epochs on
 ML-1M/Beauty and 400 on Sports. Sequence length is 50 for ML-1M and 20 for
 Beauty/Sports; ``max.'' denotes early-stopped training.}
 \label{tab:hparams}
@@ -513,153 +481,35 @@ union of finite top-$K$ outputs.
 \subsection{Semantic-ID Construction}
 \label{app:sid_construction}
 
-The SID baseline follows the TIGER-style pipeline. First, a SASRec encoder is
-trained on the same chronological sequences used by both continuous methods.
-Its learned item embedding matrix is frozen and clustered by hierarchical
-$k$-means. Each item first receives a depth-3 cluster path. Before decoder
-training and trie construction, every collision at a depth-3 leaf is augmented
-with a deterministic residual identifier ordered by item ID. Thus, 99.4\% of
-ML-1M items are already unique after the three cluster levels, and the
-remaining 0.6\% become one-to-one catalog codes after the residual identifier
-is appended. The decoder emits these final codes; no post-hoc nearest-code
-mapping or item selection is used.
+Our TIGER-style baseline hierarchically clusters the frozen SASRec item table
+into depth-3 paths. Collisions are resolved before decoder training by
+appending deterministic residual identifiers ordered by item ID. On ML-1M,
+99.4\% of items are already unique after the three cluster levels; the
+remaining items become one-to-one catalog codes after this tie-break.
 
 \subsection{TIGER T5/RQ-VAE Reproduction Recipe}
 \label{app:tiger_recipe}
 
-Our closer Beauty reproduction loads the available precomputed SID array
-\texttt{Beauty\_t5\_rqvae.npy}; the three decoder seeds do not retrain the
-RQ-VAE tokenizer. The file assigns a distinct complete code to each of 12,101
-items in the corresponding Beauty data directory. We train the provided
-T5-style encoder--decoder separately with seeds 42, 43, and 44. Each run uses
-200 maximum epochs, batch size 256, learning rate $10^{-4}$, inference batch
-size 96, beam width 30, and early stopping after ten validation checks without
-improvement in NDCG@20. The model has approximately 4.59M trainable
-parameters. Its input is the serialized user interaction history and its
-target is the next item's multi-token SID; training minimizes teacher-forced
-autoregressive token cross-entropy. At inference, beam search generates SID
-sequences that are mapped back to catalog items.
+The closer Beauty diagnostic uses fixed precomputed T5/RQ-VAE codes and trains
+the T5-style decoder with seeds 42--44; the tokenizer is not retrained.
+Across these runs, 99.48\% of generated sequences are valid SIDs, while the
+union of Top-100 outputs covers \(44.0\%\pm13.7\%\) of the catalog, rising
+from \(14.0\%\pm7.6\%\) in Q1 to \(88.7\%\pm13.0\%\) in Q4.
 
-The exact command template is:
-\begin{quote}
-\small\ttfamily
-python main.py --dataset\_path ../data/Beauty\\
---code\_path ../data/Beauty/Beauty\_t5\_rqvae.npy\\
---num\_epochs 200 --batch\_size 256 --infer\_size 96\\
---lr 1e-4 --beam\_size 30 --seed \{42,43,44\}.
-\end{quote}
+Its Beauty R@10 is \(0.0408\pm0.0016\), below the reference
+implementation. Because the available code/data snapshot, tokenizer training,
+decoder recipe, and evaluator may differ jointly, we use this run only as a
+coverage-skew robustness diagnostic, not as a reproduced TIGER benchmark.
 
-In addition to our hierarchical-$k$-means diagnostic baseline, this closer
-Beauty SID recipe uses the available precomputed T5/RQ-VAE codes and a T5
-encoder--decoder. It does not match the reference implementation's reported
-ranking accuracy, so we do not use published SID numbers as main-text
-benchmarks.
-
-\paragraph{Output-set coverage.}
-We also decode the full 22,363-user Beauty test set from each T5/RQ-VAE
-checkpoint with beam width 100 and map valid generated codes back to catalog
-items. Across seeds, 99.48\% of generated sequences are valid SIDs, but the
-union covers only $44.0\%\pm13.7\%$ of the 12,101-item catalog. The popularity
-gradient is consistent despite substantial seed variance: mean coverage rises
-from $14.0\%\pm7.6\%$ in Q1 to $88.7\%\pm13.0\%$ in Q4
-(Table 6 in the main paper). Because this reproduction has an
-unresolved ranking-accuracy gap, it shows only that the coverage pattern is
-not unique to our hierarchical-$k$-means code assignment; it is not a
-substitute for measuring the reference implementation's checkpoint.
-
-This recipe yields Beauty R@10 $0.0408\pm0.0016$, whereas the reference
-implementation reports a higher value (Table~\ref{tab:published-sid}). We do
-not treat that published value as a benchmark in the main experiments because
-the comparison is not protocol matched. Plausible, non-exclusive sources of
-the remaining gap are:
-\begin{itemize}
-    \item \textbf{Code and data snapshot.} We use an available precomputed SID
-    array and its paired Beauty directory; these may not be byte-identical to
-    the tokenizer checkpoint and processed split used for the reported result.
-    \item \textbf{Item features and tokenizer training.} The precomputed codes
-    prevent us from verifying or retraining the exact content-feature
-    extraction, RQ-VAE initialization, codebook optimization, and collision
-    handling pipeline.
-    \item \textbf{Model and optimization recipe.} Decoder scale, initialization,
-    batch construction, learning-rate schedule, regularization, stopping
-    criterion, and checkpoint selection can all affect ranking accuracy.
-    \item \textbf{Constrained decoding.} Trie construction, invalid-code
-    filtering, beam width, length normalization, duplicate removal, and the
-    mapping from completed codes to items need not match the reference
-    implementation exactly.
-    \item \textbf{Evaluator protocol.} We use our leave-one-out, historical-item
-    filtering, and full-catalog evaluator. Differences in history construction,
-    candidate filtering, item indexing, and metric implementation can change
-    the reported values.
-\end{itemize}
-Because these factors change together, the present experiment cannot identify
-a single causal source of the gap. We therefore report the discrepancy for
-transparency, avoid tuning against the published test number, and label all
-measurements from this reproduction separately.
-
-\begin{table}[H]
-\centering
-\small
-\begin{tabular}{lrr}
-\toprule
-Method & Beauty R@10 & Beauty NDCG@10 \\
-\midrule
-Hierarchical-$k$-means TIGER-style & 0.0477 \(\pm\) 0.0042 & 0.0273 \(\pm\) 0.0019 \\
-Closer T5/RQ-VAE reproduction & 0.0408 \(\pm\) 0.0016 & -- \\
-TIGER (Rajput et al., 2023) & 0.0648 & 0.0384 \\
-LETTER-TIGER (Zheng et al., 2024) & 0.0672 & 0.0364 \\
-EAGER (Wang et al., 2024) & 0.0836 & 0.0525 \\
-\bottomrule
-\end{tabular}
-\caption{Distinct SID diagnostics and published results on Amazon Beauty.
-The hierarchical-$k$-means and closer T5/RQ-VAE rows are separate
-three-seed experiments and must not be interchanged. Published rows are transcribed from
-their respective papers and are not controlled benchmarks: tokenizers, item
-features, model architectures, data processing, decoding, and evaluation
-protocols differ.}
-\label{tab:published-sid}
-\end{table}
-
-\subsection{TIGER-Style Dataloader}
+\subsection{Valid-Prefix Decoding}
 \label{app:tiger_dataloader}
 
-\begin{figure}[H]
-\centering
-\includegraphics[width=\textwidth]{Figures/fig5_ce_mse.pdf}
-\caption{Unified ML-1M objective diagnostics. (a) In the shared frozen item
-space, full-catalog CE gives the highest R@10 for both CQG-Single and CQG-AR;
-MSE and InfoNCE are lower. CE-joint changes the item representations and is
-shown only as a separate diagnostic. (b) Replacing full-catalog CE with 256
-sampled negatives reduces CQG-AR mean R@10 by 0.0087, showing that catalog
-visibility explains part, but not all, of its behavior. Error bars denote
-sample SD over seeds 42--44. (c) Lower softmax temperatures improve R@10 for
-both continuous decoders in the evaluated range; the dashed line is the
-CQG-Single MSE reference. This figure consolidates the results formerly
-reported in Tables 7--9.}
-\label{fig:ce-mse}
-\end{figure}
-
-The SID decoder dataloader uses the same history-target pairs as CQG-Single
-and CQG-AR, but replaces the target item ID with its code tuple. Each batch
-contains a padded item-history sequence and a target SID sequence. Training
-minimizes token-level cross-entropy over the code positions.
-
-At inference, we construct a trie from the catalog SID tuples. The first
-decoding step permits only catalog-valid first-level codes; each later step
-permits only tokens that extend the current prefix to at least one catalog
-code. Completed tuples are resolved by exact lookup only; no numeric
-nearest-code mapping is used. Because colliding depth-3 paths have already
-received deterministic residual identifiers, every completed trie path maps
-to exactly one item. Previously observed items are removed, and the internal
-beam is doubled when necessary until the requested number of valid, distinct,
-history-filtered items is available (up to the documented safety cap). For
-ML-1M Top-200 evaluation, all 6,040 users receive exactly 200 items; the mean
-internal beam is approximately 405 and the maximum used is 800.
-
-Checkpoint selection follows the same decoding protocol. For every ML-1M
-seed, we evaluate the saved 10K, 20K, 30K, 40K, and 50K-step checkpoints on
-the fixed 500-user validation subset, select by constrained-validation R@10,
-and then evaluate the selected checkpoint on the complete test population.
+The SID decoder uses the same history--target examples as the continuous
+models but predicts code tokens. At inference, a catalog trie masks invalid
+prefixes, completed codes use exact item lookup, historical items are removed,
+and the internal beam expands when necessary to fill the requested number of
+valid, distinct items. Checkpoint selection uses this same constrained
+protocol.
 
 \section{Additional Ablations}
 \label{app:ablations}
@@ -750,6 +600,18 @@ the evaluated range. CQG-Single R@10 decreases from \(0.3114\) at
 \(\tau=0.07\) to \(0.3070\) at \(0.10\) and \(0.2846\) at \(0.20\);
 the aligned seed-42 CQG-AR control decreases from \(0.2972\) to \(0.2886\)
 and \(0.2725\). The MSE-trained CQG-Single reference reaches \(0.2425\).
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{Figures/fig5_ce_mse.pdf}
+\caption{Unified ML-1M objective diagnostics. (a) Full-catalog CE gives the
+highest R@10 for both continuous decoders in the shared frozen item space.
+(b) Replacing full-catalog CE with 256 sampled negatives reduces CQG-AR mean
+R@10 by 0.0087. Error bars denote sample SD over seeds 42--44.
+(c) Lower softmax temperatures improve R@10 for both continuous decoders in
+the evaluated range; the dashed line is the CQG-Single MSE reference.}
+\label{fig:ce-mse}
+\end{figure}
 
 
 
