@@ -623,6 +623,22 @@ protocols differ.}
 \subsection{TIGER-Style Dataloader}
 \label{app:tiger_dataloader}
 
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{Figures/fig5_ce_mse.pdf}
+\caption{Unified ML-1M objective diagnostics. (a) In the shared frozen item
+space, full-catalog CE gives the highest R@10 for both CQG-Single and CQG-AR;
+MSE and InfoNCE are lower. CE-joint changes the item representations and is
+shown only as a separate diagnostic. (b) Replacing full-catalog CE with 256
+sampled negatives reduces CQG-AR mean R@10 by 0.0087, showing that catalog
+visibility explains part, but not all, of its behavior. Error bars denote
+sample SD over seeds 42--44. (c) Lower softmax temperatures improve R@10 for
+both continuous decoders in the evaluated range; the dashed line is the
+CQG-Single MSE reference. This figure consolidates the results formerly
+reported in Tables 7--9.}
+\label{fig:ce-mse}
+\end{figure}
+
 The SID decoder dataloader uses the same history-target pairs as CQG-Single
 and CQG-AR, but replaces the target item ID with its code tuple. Each batch
 contains a padded item-history sequence and a target SID sequence. Training
@@ -735,21 +751,7 @@ the evaluated range. CQG-Single R@10 decreases from \(0.3114\) at
 the aligned seed-42 CQG-AR control decreases from \(0.2972\) to \(0.2886\)
 and \(0.2725\). The MSE-trained CQG-Single reference reaches \(0.2425\).
 
-\begin{figure}[H]
-\centering
-\includegraphics[width=\textwidth]{Figures/fig5_ce_mse.pdf}
-\caption{Unified ML-1M objective diagnostics. (a) In the shared frozen item
-space, full-catalog CE gives the highest R@10 for both CQG-Single and CQG-AR;
-MSE and InfoNCE are lower. CE-joint changes the item representations and is
-shown only as a separate diagnostic. (b) Replacing full-catalog CE with 256
-sampled negatives reduces CQG-AR mean R@10 by 0.0087, showing that catalog
-visibility explains part, but not all, of its behavior. Error bars denote
-sample SD over seeds 42--44. (c) Lower softmax temperatures improve R@10 for
-both continuous decoders in the evaluated range; the dashed line is the
-CQG-Single MSE reference. This figure consolidates the results formerly
-reported in Tables 7--9.}
-\label{fig:ce-mse}
-\end{figure}
+
 
 \section{LLM Backbone Diagnostic}
 \label{app:llm}
@@ -771,7 +773,7 @@ the frozen collaborative item space.
 
 \begin{figure}[!htbp]
 \centering
-\includegraphics[width=0.72\textwidth]{Figures/fig4_llm_diagnostic.pdf}
+\includegraphics[width=0.52\textwidth]{Figures/fig4_llm_diagnostic.pdf}
 \caption{LLM backbone diagnostics. Pretrained language backbones do not
 automatically align with the frozen collaborative item space; the best
 text-aware Qwen hybrid still trails the single-run, MSE-frozen scratch query
