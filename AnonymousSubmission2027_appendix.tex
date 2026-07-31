@@ -143,7 +143,7 @@ for each seed/metric and for the mean row.}
 \section{Experimental Protocol and Reproducibility}
 \label{app:protocol}
 
-\subsection{Paired Crossover Values}
+\subsection{Paired Crossover and Candidate-Generation Diagnostics}
 \label{app:crossover-values}
 
 \begin{table}[H]
@@ -184,6 +184,79 @@ at \(K=10,50,90\) are \(0.0071,0.0093,0.0040\), with paired-bootstrap
 ``Single'' and ``AR'' denote CQG-Single and CQG-AR. Bold denotes the best
 method at each quartile and retrieval depth; ties are all bold.}
 \label{tab:crossover}
+\end{table}
+
+\paragraph{MSE-trained candidate generation and reranking.}
+\label{app:mse-rerank}
+We additionally evaluate a matched 100-candidate retrieve-and-rerank pipeline
+using the MSE-trained continuous-query checkpoints. The continuous retriever
+first returns at most 100 distinct, history-filtered items from the frozen
+catalog, after which the same pretrained SASRec model reranks only those
+candidates. This diagnostic therefore measures whether the generated query
+places sufficiently useful items in a small candidate set; it is not a result
+from the CE-trained CQG-Single or CQG-AR models in the primary comparison.
+
+Across ML-1M, Beauty, and Sports, CQG-Single followed by SASRec reranking
+reaches 97.7--102\% of full-rank SASRec Recall@10. The available seed-42
+CQG-AR controls show the same general pattern on ML-1M and Sports, but trail
+CQG-Single on Beauty. Table~\ref{tab:mse-rerank} reports the standalone and
+reranked results, while Table~\ref{tab:retrieval-hierarchy} compares the
+learned retrievers with nonparametric candidate generators under the same
+reranker. These are fixed-checkpoint diagnostics rather than multi-seed
+primary results.
+
+\begin{table}[H]
+\centering
+\small
+\setlength{\tabcolsep}{5pt}
+\begin{tabular}{lrrr}
+\toprule
+Method & ML-1M & Beauty & Sports \\
+\midrule
+\multicolumn{4}{l}{\textit{Recall@10}} \\
+SASRec full-rank & 0.2797 & 0.0558 & \textbf{0.0390} \\
+CQG-Single MSE standalone & 0.2425 & 0.0524 & 0.0307 \\
+CQG-Single MSE + SASRec & 0.2801 & \textbf{0.0569} & 0.0381 \\
+CQG-AR MSE standalone (seed 42) & 0.2414 & 0.0466 & 0.0294 \\
+CQG-AR MSE + SASRec (seed 42) & 0.2791 & 0.0486 & 0.0378 \\
+TIGER candidates + SASRec & \textbf{0.2864} & -- & -- \\
+\midrule
+\multicolumn{4}{l}{\textit{NDCG@10}} \\
+SASRec full-rank & 0.1535 & 0.0296 & \textbf{0.0197} \\
+CQG-Single MSE standalone & 0.1424 & 0.0266 & 0.0150 \\
+CQG-Single MSE + SASRec & 0.1554 & \textbf{0.0308} & 0.0194 \\
+CQG-AR MSE standalone (seed 42) & 0.1366 & 0.0276 & 0.0160 \\
+CQG-AR MSE + SASRec (seed 42) & 0.1543 & 0.0265 & 0.0194 \\
+TIGER candidates + SASRec & \textbf{0.1571} & -- & -- \\
+\bottomrule
+\end{tabular}
+\caption{Matched Top-100 candidate-generation and reranking diagnostic.
+CQG-Single uses MSE-trained checkpoints; CQG-AR uses the available seed-42
+candidate outputs. TIGER reranking is available only for ML-1M. Bold denotes
+the best reported result in each dataset and metric block.}
+\label{tab:mse-rerank}
+\end{table}
+
+\begin{table}[H]
+\centering
+\small
+\setlength{\tabcolsep}{6pt}
+\begin{tabular}{lrr}
+\toprule
+Candidate generator & ML-1M R@10 & Sports R@10 \\
+\midrule
+Random & 0.0252 & 0.0037 \\
+Last-item kNN & 0.2349 & 0.0311 \\
+Mean-of-5 kNN & 0.2545 & 0.0310 \\
+CQG-Single MSE + SASRec & \textbf{0.2801} & 0.0381 \\
+CQG-AR MSE + SASRec & 0.2791 & 0.0378 \\
+SASRec full-rank & 0.2797 & \textbf{0.0390} \\
+\bottomrule
+\end{tabular}
+\caption{Candidate-generation hierarchy. All rows except SASRec full-rank
+rerank a Top-100 candidate list with the same SASRec scorer. Bold denotes the
+best result in each dataset column.}
+\label{tab:retrieval-hierarchy}
 \end{table}
 
 \subsection{Computing Infrastructure}
