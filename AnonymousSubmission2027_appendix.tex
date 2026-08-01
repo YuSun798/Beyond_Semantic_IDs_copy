@@ -37,31 +37,46 @@ We report completed, protocol-matched diagnostics on the two Amazon datasets use
 \begin{table}[H]
 \centering
 \small
-\begin{tabular}{lllrr}
+\begin{minipage}[t]{0.48\textwidth}
+\centering
+\begin{tabular}{llrr}
 \toprule
-Dataset & Seed & Method & R@10 & NDCG@10 \\
+\multicolumn{4}{c}{\textbf{Beauty}} \\
+\cmidrule(lr){1-4}
+Seed & Method & R@10 & NDCG@10 \\
 \midrule
-Beauty & 42 & TIGER & 0.0464 & 0.0262 \\
- &  & CQG-Single & \textbf{0.0552} & \textbf{0.0342} \\
- &  & CQG-AR & 0.0527 & 0.0321 \\
-Beauty & 43 & TIGER & 0.0443 & 0.0261 \\
- &  & CQG-Single & \textbf{0.0632} & \textbf{0.0389} \\
- &  & CQG-AR & 0.0612 & 0.0363 \\
-Beauty & 44 & TIGER & 0.0525 & 0.0295 \\
- &  & CQG-Single & \textbf{0.0631} & \textbf{0.0379} \\
- &  & CQG-AR & 0.0573 & 0.0333 \\
-\midrule
-Sports & 42 & TIGER & 0.0205 & 0.0109 \\
- &  & CQG-Single & 0.0350 & \textbf{0.0192} \\
- &  & CQG-AR & \textbf{0.0351} & 0.0189 \\
-Sports & 43 & TIGER & 0.0242 & 0.0126 \\
- &  & CQG-Single & \textbf{0.0361} & \textbf{0.0200} \\
- &  & CQG-AR & 0.0353 & 0.0189 \\
-Sports & 44 & TIGER & 0.0261 & 0.0135 \\
- &  & CQG-Single & \textbf{0.0379} & \textbf{0.0215} \\
- &  & CQG-AR & 0.0359 & 0.0190 \\
+42 & TIGER & 0.0464 & 0.0262 \\
+ & CQG-Single & \textbf{0.0552} & \textbf{0.0342} \\
+ & CQG-AR & 0.0527 & 0.0321 \\
+43 & TIGER & 0.0443 & 0.0261 \\
+ & CQG-Single & \textbf{0.0632} & \textbf{0.0389} \\
+ & CQG-AR & 0.0612 & 0.0363 \\
+44 & TIGER & 0.0525 & 0.0295 \\
+ & CQG-Single & \textbf{0.0631} & \textbf{0.0379} \\
+ & CQG-AR & 0.0573 & 0.0333 \\
 \bottomrule
 \end{tabular}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.48\textwidth}
+\centering
+\begin{tabular}{llrr}
+\toprule
+\multicolumn{4}{c}{\textbf{Sports}} \\
+\cmidrule(lr){1-4}
+Seed & Method & R@10 & NDCG@10 \\
+\midrule
+42 & TIGER & 0.0205 & 0.0109 \\
+ & CQG-Single & 0.0350 & \textbf{0.0192} \\
+ & CQG-AR & \textbf{0.0351} & 0.0189 \\
+43 & TIGER & 0.0242 & 0.0126 \\
+ & CQG-Single & \textbf{0.0361} & \textbf{0.0200} \\
+ & CQG-AR & 0.0353 & 0.0189 \\
+44 & TIGER & 0.0261 & 0.0135 \\
+ & CQG-Single & \textbf{0.0379} & \textbf{0.0215} \\
+ & CQG-AR & 0.0359 & 0.0190 \\
+\bottomrule
+\end{tabular}
+\end{minipage}
 \caption{Complete Beauty and Sports seed-level results underlying the means
 and sample standard deviations in main-paper Table 3. Beauty and Sports use
 22,363 and 21,519 aligned test users, respectively. TIGER checkpoints are
