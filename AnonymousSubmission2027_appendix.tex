@@ -33,12 +33,9 @@
 \section{Additional Cross-Dataset Diagnostics}
 \label{app:auto-completed}
 % BEGIN AUTO_RESULTS
-The protocol-matched Amazon results confirm that the continuous-query methods
-outperform our TIGER-style baseline at shallow depth. CQG-Single achieves the
-best R@10 and NDCG@10 in all three Beauty runs and the best R@10 in two of
-three Sports runs. These results characterize our TIGER-style implementation
-under the shared protocol; they are not reproductions of the published TIGER
-architecture.
+Under the matched Amazon protocol, CQG-Single achieves the best R@10 and
+NDCG@10 in all Beauty runs and the best R@10 in two of three Sports runs.
+The comparison is against our TIGER-style baseline, not published TIGER.
 \begin{table}[H]
 \centering
 \small
@@ -92,40 +89,26 @@ dataset--seed pair and metric.}
 \label{tab:auto-tiger-results}
 \end{table}
 
-The seed-level intervals reinforce this conclusion on Sports and quantify the
-greater uncertainty on Beauty. The 95\% \(t\)-intervals for Beauty R@10 are
+The 95\% \(t\)-intervals for Beauty R@10 are
 \([0.0372,0.0583]\) for TIGER, \([0.0490,0.0720]\) for CQG-Single, and
 \([0.0465,0.0676]\) for CQG-AR. For Sports they are
 \([0.0165,0.0307]\), \([0.0327,0.0399]\), and
 \([0.0344,0.0365]\), respectively. Both continuous intervals on Sports lie
-entirely above the TIGER interval. On Beauty, CQG-Single retains the highest
-point estimate, although the three-run intervals overlap. These intervals
-measure training-run variation rather than user-level uncertainty.
+above the TIGER interval; the Beauty intervals overlap. These are
+training-run, not user-level, intervals.
 
 \section{Training-Seed Stability}
 \label{app:seed-stability}
 
-CQG-Single exceeds TIGER in R@10 in all seven ML-1M runs under the final
-common protocol (Table~\ref{tab:ml1m-seven-seed}). TIGER uses valid-prefix constrained decoding,
-exact code lookup, and adaptive internal over-generation. Its mean
-TargetInOutput is \(0.6667\pm0.0018\) at an effective returned-list size of
-100 and \(0.7593\pm0.0025\) at size 200. Across seven seeds, the 95\% $t$
-intervals for R@10 are $[0.2930,0.3063]$ for TIGER,
-$[0.3060,0.3147]$ for CQG-Single, and $[0.2947,0.3006]$ for CQG-AR.
-The mean paired seed-level R@10 difference is 0.0107 (95\% paired $t$ interval
-[0.0021, 0.0193]); an exact two-sided sign-flip permutation test over the
-seven paired differences gives $p=.0156$. The improvement is therefore stable
-across training runs rather than being driven by one favorable seed. This
-analysis is distinct from the paired seed-42 user bootstrap in
-Appendix~\ref{app:crossover-values}.
+CQG-Single exceeds TIGER in R@10 in all seven ML-1M runs
+(Table~\ref{tab:ml1m-seven-seed}). The mean paired difference is 0.0107
+(95\% $t$ interval [0.0021, 0.0193]; exact sign-flip $p=.0156$).
+TIGER TargetInOutput is \(0.6667\pm0.0018\) at output size 100 and
+\(0.7593\pm0.0025\) at size 200.
 
-All three methods use the same frozen SASRec item-embedding table, processed
-split, and evaluation
-history. For CQG-Single and CQG-AR, seeds 42--48 change downstream-model
-initialization, minibatch order, and stochastic optimization while leaving the
-item table fixed. For TIGER, the same indexed seed also changes hierarchical
-$k$-means initialization and SID-decoder training. Thus ``paired seed''
-denotes matched replicate indices under a common item space and protocol, not
+All methods share the frozen item table, split, and evaluation history.
+Seeds change downstream training; for TIGER they also change hierarchical
+$k$-means. ``Paired seed'' therefore means matched replicate index, not
 identical random draws across architectures.
 
 \begin{table}[H]
@@ -167,22 +150,15 @@ for each seed/metric and for the mean row.}
 
 \subsection{MSE-trained candidate generation and reranking.}
 \label{app:mse-rerank}
-The matched 100-candidate pipeline shows that MSE-trained CQG-Single preserves
-nearly all full-rank SASRec accuracy. The continuous retriever
-first returns at most 100 distinct, history-filtered items from the frozen
-catalog, after which the same pretrained SASRec model reranks only those
-candidates. The result directly measures candidate-set quality and remains
-separate from the CE-trained CQG-Single and CQG-AR primary comparison.
+The matched pipeline retrieves 100 distinct, history-filtered candidates and
+reranks them with the same pretrained SASRec. It evaluates the MSE-trained
+retrievers, not the CE-trained primary models.
 
 Across ML-1M, Beauty, and Sports, CQG-Single followed by SASRec reranking
-reaches 97.7--102\% of full-rank SASRec Recall@10. The seed-42 CQG-AR
-controls nearly recover full-rank accuracy on ML-1M and Sports but remain
-below CQG-Single on Beauty. Table~\ref{tab:mse-rerank}(a) reports the standalone
-and reranked results, while panel (b) compares the learned retrievers with
-nonparametric candidate generators under the same reranker. The learned
-continuous retrievers outperform random and nearest-neighbor candidate
-generation. These fixed-checkpoint results establish candidate quality but do
-not replace the multi-seed primary comparison.
+reaches 97.7--102\% of full-rank SASRec Recall@10. CQG-AR nearly recovers
+full-rank accuracy on ML-1M and Sports but remains lower on Beauty. The
+learned retrievers also outperform random and nearest-neighbor candidate
+generation. These are fixed-checkpoint, not multi-seed, results.
 
 \begin{table}[H]
 \centering
@@ -590,20 +566,15 @@ remaining items become one-to-one catalog codes after this tie-break.
 \subsection{TIGER T5/RQ-VAE Reproduction Recipe}
 \label{app:tiger_recipe}
 
-The Beauty T5/RQ-VAE run independently confirms the popularity gradient in
-finite-output coverage, although it does not reproduce the published TIGER
-accuracy. It uses fixed precomputed T5/RQ-VAE codes and trains the T5-style
-decoder with seeds 42--44; the tokenizer is not retrained.
+The Beauty T5/RQ-VAE run uses fixed codes and three decoder seeds; the
+tokenizer is not retrained.
 Across these runs, 99.48\% of generated sequences are valid SIDs, while the
 union of Top-100 outputs covers \(44.0\%\pm13.7\%\) of the catalog, rising
 from \(14.0\%\pm7.6\%\) in Q1 to \(88.7\%\pm13.0\%\) in Q4.
 
-Its Beauty R@10 is \(0.0408\pm0.0016\), below the reference implementation.
-The run therefore supports one conclusion: a second tokenizer/decoder
-construction also produces strongly popularity-skewed finite SID outputs. It
-does not support an absolute accuracy comparison with published TIGER because
-the available code/data snapshot, tokenizer training, decoder recipe, and
-evaluator differ jointly.
+Its R@10 is \(0.0408\pm0.0016\), below the reference implementation. Thus it
+confirms popularity-skewed SID coverage under a second construction, but not
+published TIGER accuracy.
 
 \subsection{Valid-Prefix Decoding}
 \label{app:tiger_dataloader}
@@ -639,16 +610,10 @@ Sampled CE (256 negatives) & 0.2895 \(\pm\) 0.0077 & 0.1663 \(\pm\) 0.0034 & 0.6
 \end{table}
 \fi
 
-Full-catalog CE is the strongest tested objective for shallow retrieval under
-the corrected leave-one-out evaluator. It yields higher Recall@10 than MSE
-and in-batch InfoNCE in the frozen item space.
-Reducing CQG-AR catalog visibility from full-catalog CE to 256 sampled
-negatives lowers mean R@10 from \(0.2982\) to \(0.2895\). Catalog visibility
-therefore explains a measurable part of the CE advantage, while the sampled
-model remains stronger than the MSE and InfoNCE variants.
-Figure~\ref{fig:ce-mse} consolidates these objective and catalog-visibility
-controls. CE-joint remains a separate comparison because it changes both the
-objective and the item representations.
+Full-catalog CE yields the highest Recall@10 in the frozen item space.
+Replacing it with 256 sampled negatives lowers CQG-AR mean R@10 from
+\(0.2982\) to \(0.2895\), while remaining above MSE and InfoNCE.
+CE-joint is separate because it also changes the item representations.
 
 \iffalse
 \begin{table}[H]
@@ -702,9 +667,8 @@ range.}
 \end{table}
 \fi
 
-The temperature sweep is monotonic: lower temperatures improve shallow
-retrieval for both continuous decoders throughout the evaluated range.
-CQG-Single R@10 decreases from \(0.3114\) at
+Lower temperatures monotonically improve shallow retrieval in the tested
+range. CQG-Single R@10 decreases from \(0.3114\) at
 \(\tau=0.07\) to \(0.3070\) at \(0.10\) and \(0.2846\) at \(0.20\);
 the aligned seed-42 CQG-AR control decreases from \(0.2972\) to \(0.2886\)
 and \(0.2725\). The MSE-trained CQG-Single reference reaches \(0.2425\).
@@ -726,17 +690,13 @@ the evaluated range; the dashed line is the CQG-Single MSE reference.}
 \section{LLM Backbone Diagnostic}
 \label{app:llm}
 
-None of the tested pretrained Qwen configurations improves continuous-query
-retrieval over the scratch Transformer (Figure~\ref{fig:llm_diagnostic}).
-Shared dual-tower training collapses the item space, driving item--item cosine
-similarity toward 0.9936. Freezing the item table prevents collapse but
-exposes a second failure mode: InfoNCE improves while Recall@10 remains far
-below the SASRec gate. The strongest text-aware hybrid reaches R@10 = 0.2118
-on ML-1M, compared with 0.248 for the single-run MSE-frozen scratch
-Transformer, and trails it at every reported cutoff. This checkpoint is
-distinct from the three-seed CQG-Single MSE result of 0.2425 in
-Figure~\ref{fig:ce-mse}. The tested pretrained language representations
-therefore do not align automatically with the frozen collaborative item space.
+No tested Qwen configuration outperforms the scratch Transformer
+(Figure~\ref{fig:llm_diagnostic}). Joint training collapses the item space
+(item--item cosine 0.9936); freezing it avoids collapse but leaves Recall@10
+below the SASRec gate. The best hybrid reaches R@10 = 0.2118 versus 0.248 for
+the single-run scratch model and trails it at every cutoff. This scratch
+checkpoint is distinct from the three-seed MSE result in
+Figure~\ref{fig:ce-mse}.
 
 \begin{figure}[!htbp]
 \centering
