@@ -260,18 +260,13 @@ Q4 popular & Single & \textbf{.3555} & \textbf{.4754} & \textbf{.5479} & \textbf
 & TIGER & .3474 & .4612 & .5307 & .5834 & .6273 & .6509 & .6795 & .7023 & \textbf{.7208} & \textbf{.7335} & \textbf{.7619} & \textbf{.7896} \\
 \bottomrule
 \end{tabular}
-\caption{Recall at all 12 depths plotted in main-paper Figure 3. This
-paired seed-42 diagnostic uses the same 6,040 users and matched Top-200
-outputs. Its CQG-Single checkpoint has aggregate R@10 \(0.3063\), whereas
-the independently selected seed-42 checkpoint in the primary seven-seed
-Table~\ref{tab:ml1m-seven-seed} has R@10 \(0.3036\); the curve is therefore
-a checkpoint-specific diagnostic and is not used as the primary seed-42
-accuracy result. For this diagnostic, aggregate CQG-minus-TIGER differences
-at \(K=10,50,90\) are \(0.0071,0.0093,0.0040\), with paired-bootstrap
-95\% CIs \([-0.0025,0.0169]\), \([-0.0003,0.0189]\), and
-\([-0.0048,0.0127]\), respectively (10,000 resamples; all \(p>.05\)).
-``Single'' and ``AR'' denote CQG-Single and CQG-AR. Bold denotes the best
-method at each quartile and retrieval depth; ties are all bold.}
+\caption{Recall at the 12 depths in main-paper Figure~3, evaluated on the
+same 6,040 users using paired seed-42 checkpoints and matched Top-200
+outputs. This CQG-Single checkpoint has R@10 \(0.3063\), rather than
+\(0.3036\) in the primary seven-seed Table~\ref{tab:ml1m-seven-seed}.
+CQG-Single--TIGER differences at \(K=10,50,90\) are
+\(0.0071,0.0093,0.0040\); all paired-bootstrap 95\% CIs include zero
+(10,000 resamples). Bold denotes the best method; ties are bolded.}
 \label{tab:crossover}
 \end{table}
 
@@ -354,6 +349,20 @@ Table~\ref{tab:ml1m-seven-seed}. These quantities separately address target
 imbalance, output diversity, and training-run uncertainty; within-seed item
 resampling is not used as a proxy for training-seed variation.
 
+\begin{figure}[!t]
+\centering
+\includegraphics[width=1\textwidth]{Figures/cqg_transformer_architecture.pdf}
+\caption{Transformer-level architectures of CQG-Single and CQG-AR. Both
+methods consume history-item embeddings from the same frozen item table
+\(E\). CQG-Single produces one continuous query in a single forward pass,
+whereas CQG-AR autoregressively appends projected residual tokens and retrieves
+with the final cumulative query. Both use the frozen table as the full-catalog
+classifier and exact/ANN retrieval index.}
+\label{fig:cqg-architecture}
+\end{figure}
+
+
+
 \section{Model and Training Details}
 \label{app:training}
 
@@ -389,6 +398,7 @@ catalog (masking padding).  We retain the checkpoint with the highest
 validation NDCG@10.  The maximum is 200 epochs for ML-1M and Beauty and 400
 for Sports; checkpoint selection, rather than the last epoch, determines the
 exported representation.
+
 
 \paragraph{Export, normalization, and sharing.}
 After loading the selected checkpoint, we export the lookup parameters
@@ -457,17 +467,7 @@ patience 5 on validation NDCG@10.  The selected checkpoint is evaluated
 against the full catalog after appending the validation item to the test
 history and masking all previously observed items.
 
-\begin{figure}[!t]
-\centering
-\includegraphics[width=\textwidth]{Figures/cqg_transformer_architecture.pdf}
-\caption{Transformer-level architectures of CQG-Single and CQG-AR. Both
-methods consume history-item embeddings from the same frozen item table
-\(E\). CQG-Single produces one continuous query in a single forward pass,
-whereas CQG-AR autoregressively appends projected residual tokens and retrieves
-with the final cumulative query. Both use the frozen table as the full-catalog
-classifier and exact/ANN retrieval index.}
-\label{fig:cqg-architecture}
-\end{figure}
+
 
 \subsection{Hyperparameters}
 \label{app:hparams}
@@ -759,7 +759,7 @@ column.}
 \label{tab:llmcurve}
 \end{table}
 
-The full recall curve confirms the diagnostic: the best tested LLM hybrid
-underperforms the scratch Transformer at every reported depth.
+% The full recall curve confirms the diagnostic: the best tested LLM hybrid
+% underperforms the scratch Transformer at every reported depth.
 
 \end{document}
